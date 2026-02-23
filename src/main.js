@@ -256,25 +256,50 @@ import './style.css';
     document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
 
     // ═══════════════════════════════════════════
-    // 6. CONTACT FORM — Visual feedback
+    // 6. CONTACT FORM — Web3Forms Integration
     // ═══════════════════════════════════════════
     const contactForm = document.getElementById('contactForm');
-    contactForm.addEventListener('submit', function (e) {
+    contactForm.addEventListener('submit', async function (e) {
         e.preventDefault();
         const btn = this.querySelector('.btn-submit');
+        const originalText = currentLang === 'es' ? 'Enviar Mensaje' : 'Send Message';
 
+        // Loading state
         btn.disabled = true;
         Array.from(btn.childNodes).forEach((n) => { if (n.nodeType === Node.TEXT_NODE) n.remove(); });
-        btn.appendChild(document.createTextNode(currentLang === 'es' ? ' ¡Enviado! ✓' : ' Sent! ✓'));
-        btn.style.background = 'linear-gradient(to right, #22c55e, #16a34a)';
+        btn.appendChild(document.createTextNode(currentLang === 'es' ? ' Enviando...' : ' Sending...'));
 
+        try {
+            const formData = new FormData(this);
+            const response = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                body: formData,
+            });
+            const result = await response.json();
+
+            if (result.success) {
+                // Success
+                Array.from(btn.childNodes).forEach((n) => { if (n.nodeType === Node.TEXT_NODE) n.remove(); });
+                btn.appendChild(document.createTextNode(currentLang === 'es' ? ' ¡Enviado! ✓' : ' Sent! ✓'));
+                btn.style.background = 'linear-gradient(to right, #22c55e, #16a34a)';
+                contactForm.reset();
+            } else {
+                throw new Error(result.message || 'Error');
+            }
+        } catch (err) {
+            // Error
+            Array.from(btn.childNodes).forEach((n) => { if (n.nodeType === Node.TEXT_NODE) n.remove(); });
+            btn.appendChild(document.createTextNode(currentLang === 'es' ? ' Error al enviar ✗' : ' Send failed ✗'));
+            btn.style.background = 'linear-gradient(to right, #ef4444, #dc2626)';
+        }
+
+        // Reset button after 3s
         setTimeout(() => {
             btn.disabled = false;
             Array.from(btn.childNodes).forEach((n) => { if (n.nodeType === Node.TEXT_NODE) n.remove(); });
-            btn.appendChild(document.createTextNode(' ' + (currentLang === 'es' ? 'Enviar Mensaje' : 'Send Message')));
+            btn.appendChild(document.createTextNode(' ' + originalText));
             btn.style.background = '';
-            contactForm.reset();
-        }, 2500);
+        }, 3000);
     });
 
     // ═══════════════════════════════════════════

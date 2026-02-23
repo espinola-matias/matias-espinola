@@ -714,8 +714,12 @@
 
       <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 reveal">
         <!-- Form -->
-        <form id="contactForm" onsubmit="return false;"
+        <form id="contactForm"
           class="lg:col-span-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <!-- Web3Forms hidden fields -->
+          <input type="hidden" name="access_key" value="829b360a-1307-4e87-b3f4-c8acce66e345" />
+          <input type="hidden" name="subject" value="Nuevo mensaje desde tu portafolio" />
+          <input type="hidden" name="from_name" value="Portfolio Contact Form" />
           <div class="flex flex-col">
             <label for="name" class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1"
               data-i18n="contact.name">Nombre</label>
