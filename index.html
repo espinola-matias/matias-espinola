@@ -720,6 +720,8 @@
           <input type="hidden" name="access_key" value="829b360a-1307-4e87-b3f4-c8acce66e345" />
           <input type="hidden" name="subject" value="Nuevo mensaje desde tu portafolio" />
           <input type="hidden" name="from_name" value="Portfolio Contact Form" />
+          <!-- Honeypot anti-bot (hidden checkbox — bots fill it, humans don't see it) -->
+          <input type="checkbox" name="botcheck" class="hidden" style="display:none" />
           <div class="flex flex-col">
             <label for="name" class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1"
               data-i18n="contact.name">Nombre</label>
@@ -764,13 +766,15 @@
             </div>
             <div>
               <h4 class="text-sm font-semibold" data-i18n="contact.emailLabel">Email</h4>
-              <a href="mailto:rojasmati98@gmail.com"
-                class="text-sm text-slate-500 dark:text-slate-400 hover:text-indigo-500 transition-colors">rojasmati98@gmail.com</a>
+              <a id="obfEmail" href="#"
+                class="text-sm text-slate-500 dark:text-slate-400 hover:text-indigo-500 transition-colors"
+                data-u="rojasmati98" data-d="gmail.com">Cargando...</a>
             </div>
           </div>
           <!-- WhatsApp -->
-          <a href="https://wa.me/595982201104" target="_blank" rel="noopener"
-            class="flex items-center gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 hover:border-green-400 transition-colors duration-200 no-underline">
+          <a id="obfWhatsApp" href="#" target="_blank" rel="noopener"
+            class="flex items-center gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 hover:border-green-400 transition-colors duration-200 no-underline"
+            data-cc="595" data-num="982201104">
             <div
               class="flex items-center justify-center w-12 h-12 shrink-0 bg-green-50 dark:bg-green-950 text-green-500 rounded-xl">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -780,7 +784,7 @@
             </div>
             <div>
               <h4 class="text-sm font-semibold" data-i18n="contact.whatsappLabel">WhatsApp</h4>
-              <p class="text-sm text-slate-500 dark:text-slate-400">+595 982 201 104</p>
+              <p id="obfWhatsAppText" class="text-sm text-slate-500 dark:text-slate-400">Cargando...</p>
             </div>
           </a>
           <!-- Location -->

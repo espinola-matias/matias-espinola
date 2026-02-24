@@ -256,13 +256,52 @@ import './style.css';
     document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
 
     // ═══════════════════════════════════════════
-    // 6. CONTACT FORM — Web3Forms Integration
+    // 6. CONTACT FORM — Web3Forms + Rate Limiting
     // ═══════════════════════════════════════════
     const contactForm = document.getElementById('contactForm');
+    const RATE_LIMIT_KEY = 'cf_submissions';
+    const MAX_SUBMISSIONS = 3;      // max per window
+    const RATE_WINDOW_MS = 30 * 60 * 1000; // 30 minutes
+
+    function getSubmissions() {
+        try {
+            const data = JSON.parse(localStorage.getItem(RATE_LIMIT_KEY) || '[]');
+            const now = Date.now();
+            return data.filter((ts) => now - ts < RATE_WINDOW_MS);
+        } catch { return []; }
+    }
+
+    function recordSubmission() {
+        const subs = getSubmissions();
+        subs.push(Date.now());
+        localStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(subs));
+    }
+
     contactForm.addEventListener('submit', async function (e) {
         e.preventDefault();
         const btn = this.querySelector('.btn-submit');
         const originalText = currentLang === 'es' ? 'Enviar Mensaje' : 'Send Message';
+
+        // Rate limit check
+        const subs = getSubmissions();
+        if (subs.length >= MAX_SUBMISSIONS) {
+            const minsLeft = Math.ceil((RATE_WINDOW_MS - (Date.now() - subs[0])) / 60000);
+            Array.from(btn.childNodes).forEach((n) => { if (n.nodeType === Node.TEXT_NODE) n.remove(); });
+            btn.appendChild(document.createTextNode(
+                currentLang === 'es'
+                    ? ` Demasiados envíos. Esperá ${minsLeft} min`
+                    : ` Too many submissions. Wait ${minsLeft} min`
+            ));
+            btn.style.background = 'linear-gradient(to right, #f59e0b, #d97706)';
+            btn.disabled = true;
+            setTimeout(() => {
+                btn.disabled = false;
+                Array.from(btn.childNodes).forEach((n) => { if (n.nodeType === Node.TEXT_NODE) n.remove(); });
+                btn.appendChild(document.createTextNode(' ' + originalText));
+                btn.style.background = '';
+            }, 4000);
+            return;
+        }
 
         // Loading state
         btn.disabled = true;
@@ -278,7 +317,7 @@ import './style.css';
             const result = await response.json();
 
             if (result.success) {
-                // Success
+                recordSubmission();
                 Array.from(btn.childNodes).forEach((n) => { if (n.nodeType === Node.TEXT_NODE) n.remove(); });
                 btn.appendChild(document.createTextNode(currentLang === 'es' ? ' ¡Enviado! ✓' : ' Sent! ✓'));
                 btn.style.background = 'linear-gradient(to right, #22c55e, #16a34a)';
@@ -287,13 +326,11 @@ import './style.css';
                 throw new Error(result.message || 'Error');
             }
         } catch (err) {
-            // Error
             Array.from(btn.childNodes).forEach((n) => { if (n.nodeType === Node.TEXT_NODE) n.remove(); });
             btn.appendChild(document.createTextNode(currentLang === 'es' ? ' Error al enviar ✗' : ' Send failed ✗'));
             btn.style.background = 'linear-gradient(to right, #ef4444, #dc2626)';
         }
 
-        // Reset button after 3s
         setTimeout(() => {
             btn.disabled = false;
             Array.from(btn.childNodes).forEach((n) => { if (n.nodeType === Node.TEXT_NODE) n.remove(); });
@@ -301,6 +338,29 @@ import './style.css';
             btn.style.background = '';
         }, 3000);
     });
+
+    // ═══════════════════════════════════════════
+    // 6b. CONTACT INFO — Obfuscation (anti-scraping)
+    // ═══════════════════════════════════════════
+    const obfEmail = document.getElementById('obfEmail');
+    if (obfEmail) {
+        const u = obfEmail.dataset.u;
+        const d = obfEmail.dataset.d;
+        const addr = u + '@' + d;
+        obfEmail.href = 'mai' + 'lto:' + addr;
+        obfEmail.textContent = addr;
+    }
+
+    const obfWA = document.getElementById('obfWhatsApp');
+    const obfWAText = document.getElementById('obfWhatsAppText');
+    if (obfWA) {
+        const cc = obfWA.dataset.cc;
+        const num = obfWA.dataset.num;
+        obfWA.href = 'https://wa' + '.me/' + cc + num;
+        if (obfWAText) {
+            obfWAText.textContent = '+' + cc + ' ' + num.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3');
+        }
+    }
 
     // ═══════════════════════════════════════════
     // Scroll listener (throttled)
