@@ -17,7 +17,7 @@ import './style.css';
             'nav.contact': 'Contacto',
             'hero.greeting': 'Hola, soy',
             'hero.role': 'Software Developer',
-            'hero.description': 'Me apasiona entender y construir todas las piezas de un producto digital. Mi enfoque principal está en el desarrollo de arquitecturas robustas y APIs seguras, garantizando que cada pieza de software sea escalable y fácil de mantener. Disfruto explorar y conectar diferentes tecnologías para resolver problemas reales. Me considero un persona versátil, con gran capacidad de adaptación y siempre dispuesto a sumar nuevas herramientas a mi ecosistema técnico.',
+            'hero.description': 'Me apasiona entender y construir todas las piezas de un producto digital. Mi enfoque principal está en el desarrollo de arquitecturas robustas y APIs seguras, garantizando que cada pieza de software sea escalable y fácil de mantener. Disfruto explorar y conectar diferentes tecnologías para resolver problemas reales. Me considero una persona versátil, con gran capacidad de adaptación y siempre dispuesto a sumar nuevas herramientas a mi ecosistema técnico.',
             'hero.cta.cv': 'Descargar CV',
             'hero.cta.projects': 'Mis Proyectos',
             'hero.cta.linkedin': 'LinkedIn',
