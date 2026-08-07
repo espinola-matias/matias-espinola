@@ -3,6 +3,7 @@
    ═══════════════════════════════════════════ */
 
 import './style.css';
+import './starfield.js';
 
 (function () {
     'use strict';
@@ -15,6 +16,7 @@ import './style.css';
             'nav.skills': 'Habilidades',
             'nav.certificates': 'Certificados',
             'nav.contact': 'Contacto',
+            'nav.backToTop': 'Volver al inicio',
             'hero.greeting': 'Hola, soy',
             'hero.role': 'Software Developer',
             'hero.description': 'Me apasiona entender y construir todas las piezas de un producto digital. Mi enfoque principal está en el desarrollo de arquitecturas robustas y APIs seguras, garantizando que cada pieza de software sea escalable y fácil de mantener. Disfruto explorar y conectar diferentes tecnologías para resolver problemas reales. Me considero una persona versátil, con gran capacidad de adaptación y siempre dispuesto a sumar nuevas herramientas a mi ecosistema técnico.',
@@ -41,7 +43,8 @@ import './style.css';
             'skills.backend': 'Backend',
             'skills.frontend': 'Frontend',
             'skills.data': 'Data & DB',
-            'skills.devops': 'DevOps & Tools',
+            'skills.devops': 'Cloud & DevOps',
+            'skills.tools': 'Herramientas & Lenguajes',
             'certificates.title': 'Certificados',
             'certificates.subtitle': 'Formación continua y certificaciones profesionales',
             'certificates.c1.title': 'AWS Certified Cloud Practitioner',
@@ -76,6 +79,7 @@ import './style.css';
             'nav.skills': 'Skills',
             'nav.certificates': 'Certificates',
             'nav.contact': 'Contact',
+            'nav.backToTop': 'Back to top',
             'hero.greeting': "Hi, I'm",
             'hero.role': 'Software Developer',
             'hero.description': 'I am passionate about understanding and building every piece of a digital product. My main focus is on developing robust architectures and secure APIs, ensuring every piece of software is scalable and maintainable. I enjoy exploring and connecting different technologies to solve real-world problems. I consider myself a versatile person, highly adaptable and always ready to add new tools to my technical ecosystem.',
@@ -102,7 +106,8 @@ import './style.css';
             'skills.backend': 'Backend',
             'skills.frontend': 'Frontend',
             'skills.data': 'Data & DB',
-            'skills.devops': 'DevOps & Tools',
+            'skills.devops': 'Cloud & DevOps',
+            'skills.tools': 'Tools & Languages',
             'certificates.title': 'Certificates',
             'certificates.subtitle': 'Continuous learning and professional certifications',
             'certificates.c1.title': 'AWS Certified Cloud Practitioner',
@@ -147,6 +152,7 @@ import './style.css';
     const navLinks = document.getElementById('navLinks');
     const sections = document.querySelectorAll('section');
     const navAnchors = document.querySelectorAll('.nav-link');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     // ═══════════════════════════════════════════
     // 1. THEME TOGGLE
@@ -176,6 +182,38 @@ import './style.css';
     // ═══════════════════════════════════════════
     // 2. LANGUAGE SWITCH (i18n)
     // ═══════════════════════════════════════════
+
+    // Parte el texto de un [data-split] en palabras y le da a cada una su propio
+    // retraso, para que aparezcan encadenadas en vez de todas de golpe.
+    // Se vuelve a llamar en cada cambio de idioma, porque applyLanguage reemplaza
+    // el contenido del elemento.
+    const MAX_SPREAD_MS = 900;   // techo del escalonado, para textos largos
+
+    function splitWords(el) {
+        const text = (el.textContent || '').trim();
+        if (!text) return;
+
+        const words = text.split(/\s+/);
+        const base = Number(el.dataset.delay) || 0;
+        const step = words.length > 1
+            ? Math.min(Number(el.dataset.step) || 60, MAX_SPREAD_MS / (words.length - 1))
+            : 0;
+
+        const frag = document.createDocumentFragment();
+        words.forEach((word, i) => {
+            const span = document.createElement('span');
+            span.className = 'word';
+            span.textContent = word;
+            span.style.animationDelay = Math.round(base + i * step) + 'ms';
+            frag.appendChild(span);
+            if (i < words.length - 1) frag.appendChild(document.createTextNode(' '));
+        });
+
+        el.textContent = '';
+        el.appendChild(frag);
+        el.classList.add('split-ready');
+    }
+
     function applyLanguage(lang) {
         currentLang = lang;
         const strings = translations[lang];
@@ -194,6 +232,8 @@ import './style.css';
             } else {
                 el.textContent = strings[key];
             }
+
+            if (el.hasAttribute('data-split')) splitWords(el);
         });
 
         langLabel.textContent = lang === 'es' ? 'EN' : 'ES';
@@ -210,17 +250,57 @@ import './style.css';
     // ═══════════════════════════════════════════
     // 3. MOBILE MENU
     // ═══════════════════════════════════════════
+    function abrirMenu(abierto) {
+        hamburger.classList.toggle('active', abierto);
+        navLinks.classList.toggle('open', abierto);
+        hamburger.setAttribute('aria-expanded', String(abierto));
+    }
+
     hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        navLinks.classList.toggle('open');
+        abrirMenu(!navLinks.classList.contains('open'));
     });
 
     navAnchors.forEach((link) => {
-        link.addEventListener('click', () => {
-            hamburger.classList.remove('active');
-            navLinks.classList.remove('open');
+        link.addEventListener('click', () => abrirMenu(false));
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!navLinks.classList.contains('open')) return;
+        if (navLinks.contains(e.target) || hamburger.contains(e.target)) return;
+        abrirMenu(false);
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && navLinks.classList.contains('open')) abrirMenu(false);
+    });
+
+    // ═══════════════════════════════════════════
+    // 3b. NAVEGACIÓN SIN # EN LA URL
+    // ═══════════════════════════════════════════
+    // Los href="#seccion" se mantienen: sirven para accesibilidad y para que la
+    // página siga navegándose sin JS. Acá sólo se intercepta el click para hacer
+    // el scroll a mano y dejar la barra de direcciones limpia.
+    function limpiarUrl() {
+        history.replaceState(null, '', location.pathname + location.search);
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach((link) => {
+        link.addEventListener('click', (e) => {
+            const href = link.getAttribute('href') || '';
+            if (!href.startsWith('#') || href === '#') return;
+
+            const target = document.getElementById(href.slice(1));
+            if (!target) return;
+
+            e.preventDefault();
+            target.scrollIntoView({ behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+            limpiarUrl();
         });
     });
+
+    // Si alguien entra con un enlace que ya trae #, se respeta el salto del
+    // navegador y después se limpia.
+    if (location.hash) limpiarUrl();
 
     // ═══════════════════════════════════════════
     // 4. SCROLL — Active Nav Highlight
@@ -363,6 +443,29 @@ import './style.css';
     }
 
     // ═══════════════════════════════════════════
+    // 6c. SCROLL PROGRESS RING — Volver al inicio
+    // ═══════════════════════════════════════════
+    const scrollTopBtn = document.getElementById('scrollTop');
+    const anillo = scrollTopBtn ? scrollTopBtn.querySelector('[data-anillo]') : null;
+    const RING_LENGTH = 138.23;   // 2π × r (r = 22)
+    const SHOW_AFTER_PX = 300;
+
+    function updateScrollRing() {
+        if (!anillo) return;
+        const max = html.scrollHeight - window.innerHeight;
+        const progress = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
+        anillo.style.strokeDashoffset = (RING_LENGTH * (1 - progress)).toFixed(2);
+        scrollTopBtn.classList.toggle('is-visible', window.scrollY > SHOW_AFTER_PX);
+    }
+
+    if (scrollTopBtn) {
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+        });
+        window.addEventListener('resize', updateScrollRing);
+    }
+
+    // ═══════════════════════════════════════════
     // Scroll listener (throttled)
     // ═══════════════════════════════════════════
     let ticking = false;
@@ -370,6 +473,7 @@ import './style.css';
         if (!ticking) {
             window.requestAnimationFrame(() => {
                 updateActiveNav();
+                updateScrollRing();
                 ticking = false;
             });
             ticking = true;
@@ -377,29 +481,232 @@ import './style.css';
     });
 
     updateActiveNav();
+    updateScrollRing();
 
     // ═══════════════════════════════════════════
-    // 7. CERTIFICATES — Show More / Less
+    // 6d. SKILLS — las herramientas entran de a una
     // ═══════════════════════════════════════════
+    const skillCards = document.querySelectorAll('.skill-card');
+    const SKILL_BASE_MS = 180;   // espera a que la caja ya esté entrando
+    const SKILL_STEP_MS = 65;
+
+    // El retraso va en animation-delay (no en transition-delay) para no
+    // demorar el hover de cada herramienta una vez que ya apareció.
+    skillCards.forEach((card) => {
+        card.querySelectorAll('.skill-item').forEach((item, i) => {
+            item.style.animationDelay = SKILL_BASE_MS + i * SKILL_STEP_MS + 'ms';
+        });
+    });
+
+    if (skillCards.length) {
+        const skillsObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('skills-ready');
+                skillsObserver.unobserve(entry.target);
+            });
+        }, { threshold: 0.2 });
+
+        skillCards.forEach((card) => skillsObserver.observe(card));
+    }
+
+    // ═══════════════════════════════════════════
+    // 7. CERTIFICADOS — Rotación lateral + Ver más
+    // ═══════════════════════════════════════════
+    const certsGrid = document.getElementById('certsGrid');
     const certsToggle = document.getElementById('certsToggle');
-    const extraCerts = document.querySelectorAll('.cert-extra');
-    let certsExpanded = false;
+    const certCards = certsGrid ? Array.from(certsGrid.querySelectorAll('.cert-card')) : [];
 
-    certsToggle.addEventListener('click', () => {
-        certsExpanded = !certsExpanded;
-        extraCerts.forEach((card) => {
-            card.classList.toggle('hidden', !certsExpanded);
+    const ROTATE_MS = 8000;   // cada cuánto cambia la combinación
+    const STAGGER_MS = 110;   // desfase entre tarjetas
+    const EXIT_MS = 420;      // debe coincidir con la transición de .cert-card
+    const ENTER_MS = 560;
+
+    let certsExpanded = false;
+    let currentCombo = [];    // índices de las tarjetas visibles ahora
+    let comboPool = [];       // combinaciones que aún no se usaron en este ciclo
+    let comboSlots = 0;       // cuántas tarjetas entran en una fila
+    let rotateTimer = null;
+    let transitioning = false;
+    let certsInView = false;
+    let certsHovered = false;
+    let certsStarted = false;
+
+    // ── Todas las combinaciones de k elementos entre n (sin repetir) ──
+    function buildCombos(n, k) {
+        const out = [];
+        const combo = [];
+        (function walk(start) {
+            if (combo.length === k) { out.push(combo.slice()); return; }
+            for (let i = start; i < n; i++) {
+                combo.push(i);
+                walk(i + 1);
+                combo.pop();
+            }
+        })(0);
+        return out;
+    }
+
+    function shuffle(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    function refillPool() {
+        comboPool = shuffle(buildCombos(certCards.length, comboSlots));
+    }
+
+    // Del pool saca la combinación que menos comparte con la actual: así cada
+    // rotación se nota, y ninguna combinación se repite dentro del ciclo.
+    // Al agotarse las combinaciones el pool se rearma en otro orden, y la misma
+    // regla impide que la primera del ciclo nuevo repita a la que está en pantalla.
+    function takeNextCombo() {
+        if (!comboPool.length) refillPool();
+        let bestIdx = 0;
+        let bestOverlap = Infinity;
+        for (let i = 0; i < comboPool.length; i++) {
+            const overlap = comboPool[i].filter((x) => currentCombo.includes(x)).length;
+            if (overlap < bestOverlap) { bestOverlap = overlap; bestIdx = i; }
+            if (overlap === 0) break;
+        }
+        return shuffle(comboPool.splice(bestIdx, 1)[0]);
+    }
+
+    // Cuántas columnas tiene el grid ahora mismo (1 / 2 / 3 según breakpoint)
+    function slotCount() {
+        const cols = getComputedStyle(certsGrid).gridTemplateColumns.split(' ').filter(Boolean).length;
+        return Math.max(1, Math.min(cols, certCards.length));
+    }
+
+    // Deja en pantalla exactamente `combo`. Con offstage=true las coloca ya fuera
+    // del costado derecho: como venían de display:none, ese salto no se anima.
+    function layoutCombo(combo, offstage) {
+        certCards.forEach((card) => {
+            card.classList.add('cert-hidden');
+            card.classList.remove('cert-exit', 'cert-enter');
+            card.style.transitionDelay = '';
+            card.style.order = '';
+        });
+        void certsGrid.offsetWidth;   // confirma el display:none antes de reaparecer
+
+        combo.forEach((idx, pos) => {
+            const card = certCards[idx];
+            card.style.order = pos;
+            if (offstage) card.classList.add('cert-enter');
+            card.classList.remove('cert-hidden');
+        });
+        currentCombo = combo;
+    }
+
+    function animateIn(combo) {
+        transitioning = true;
+        layoutCombo(combo, true);
+        void certsGrid.offsetWidth;   // confirma el estado de entrada
+
+        requestAnimationFrame(() => {
+            combo.forEach((idx, pos) => {
+                const card = certCards[idx];
+                card.style.transitionDelay = reducedMotion.matches ? '0ms' : pos * STAGGER_MS + 'ms';
+                card.classList.remove('cert-enter');
+            });
+            window.setTimeout(() => {
+                combo.forEach((idx) => { certCards[idx].style.transitionDelay = ''; });
+                transitioning = false;
+            }, reducedMotion.matches ? 0 : ENTER_MS + STAGGER_MS * combo.length);
+        });
+    }
+
+    function rotate() {
+        if (transitioning || certsExpanded) return;
+        const next = takeNextCombo();
+        transitioning = true;
+
+        const exiting = currentCombo.slice();
+        exiting.forEach((idx, pos) => {
+            const card = certCards[idx];
+            card.style.transitionDelay = reducedMotion.matches ? '0ms' : pos * STAGGER_MS + 'ms';
+            card.classList.add('cert-exit');
         });
 
-        const chevronDown = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
-        const chevronUp = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>';
+        window.setTimeout(
+            () => animateIn(next),
+            reducedMotion.matches ? 0 : EXIT_MS + STAGGER_MS * (exiting.length - 1)
+        );
+    }
 
-        const label = certsExpanded
-            ? (currentLang === 'es' ? 'Ver menos' : 'Show less')
-            : (currentLang === 'es' ? 'Ver más certificados' : 'Show more certificates');
+    function startRotation() {
+        if (rotateTimer || certCards.length <= comboSlots) return;
+        rotateTimer = window.setInterval(() => {
+            // Se saltea el turno si no aporta nada: fuera de pantalla, pestaña en
+            // segundo plano, mouse encima (para poder leer o clickear) o expandido.
+            if (certsExpanded || certsHovered || !certsInView || document.hidden) return;
+            rotate();
+        }, ROTATE_MS);
+    }
 
-        certsToggle.innerHTML = (certsExpanded ? chevronUp : chevronDown) + ' ' + label;
-    });
+    function stopRotation() {
+        window.clearInterval(rotateTimer);
+        rotateTimer = null;
+    }
+
+    if (certCards.length) {
+        comboSlots = slotCount();
+        refillPool();
+        // Estado inicial: la primera combinación ya colocada, pero esperando fuera
+        // del costado hasta que la sección entre en pantalla.
+        layoutCombo(takeNextCombo(), true);
+
+        const certsObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                certsInView = entry.isIntersecting;
+                if (entry.isIntersecting && !certsStarted) {
+                    certsStarted = true;
+                    animateIn(currentCombo);
+                    startRotation();
+                }
+            });
+        }, { threshold: 0.15 });
+        certsObserver.observe(certsGrid);
+
+        certsGrid.addEventListener('pointerenter', () => { certsHovered = true; });
+        certsGrid.addEventListener('pointerleave', () => { certsHovered = false; });
+        certsGrid.addEventListener('focusin', () => { certsHovered = true; });
+        certsGrid.addEventListener('focusout', () => { certsHovered = false; });
+
+        // Al cambiar de breakpoint cambia cuántas caben en la fila: nuevo tamaño
+        // de combinación, nuevo ciclo.
+        window.addEventListener('resize', () => {
+            const slots = slotCount();
+            if (slots === comboSlots) return;
+            comboSlots = slots;
+            refillPool();
+            if (!certsExpanded) layoutCombo(takeNextCombo(), false);
+        });
+    }
+
+    if (certsToggle) {
+        certsToggle.addEventListener('click', () => {
+            certsExpanded = !certsExpanded;
+
+            if (certsExpanded) {
+                stopRotation();
+                animateIn(certCards.map((_, i) => i));
+            } else {
+                animateIn(takeNextCombo());
+                startRotation();
+            }
+
+            const chevronDown = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+            const chevronUp = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>';
+
+            const key = certsExpanded ? 'certificates.showLess' : 'certificates.showMore';
+            certsToggle.setAttribute('data-i18n', key);
+            certsToggle.innerHTML = (certsExpanded ? chevronUp : chevronDown) + ' ' + translations[currentLang][key];
+        });
+    }
 
     // ═══════════════════════════════════════════
     // 8. PROFILE PHOTO — Click to Enlarge
