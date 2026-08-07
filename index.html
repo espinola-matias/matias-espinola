@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es"
+  class="scroll-smooth bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
 
 <head>
   <meta charset="UTF-8" />
@@ -12,22 +13,31 @@
     rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css" />
   <link rel="stylesheet" href="/src/style.css" />
+  <noscript>
+    <style>
+      [data-split],
+      .skill-item,
+      .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    </style>
+  </noscript>
 </head>
 
-<body
-  class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 font-sans antialiased transition-colors duration-300">
+<body class="text-slate-800 dark:text-slate-100 font-sans antialiased transition-colors duration-300">
 
-  <!-- ═══ NAVIGATION ═══ -->
+  <canvas id="starfield" class="fixed inset-0 -z-10 pointer-events-none" aria-hidden="true"></canvas>
+
   <nav id="navbar"
     class="fixed top-0 left-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
     <div class="max-w-6xl mx-auto px-5 flex items-center justify-between h-16">
-      <!-- LOGO: Nombre -->
       <a href="#hero"
         class="text-lg font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">Matias
         Espínola.dev</a>
 
-      <!-- Hamburger -->
-      <button id="hamburger" class="md:hidden flex flex-col gap-[5px] p-2 z-[1001]" aria-label="Toggle menu">
+      <button id="hamburger" class="hamburger md:hidden flex flex-col gap-[5px] p-2 z-[1001]" aria-label="Toggle menu"
+        aria-expanded="false" aria-controls="navLinks">
         <span
           class="block w-6 h-0.5 bg-slate-800 dark:bg-slate-100 rounded transition-all duration-200 origin-center hamburger-line"></span>
         <span
@@ -53,7 +63,6 @@
             class="nav-link px-3 py-2 text-sm font-medium text-slate-500 dark:text-slate-400 rounded-lg hover:text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-950 transition-all duration-200"
             data-i18n="nav.contact">Contacto</a></li>
 
-        <!-- Theme Toggle -->
         <li class="ml-2">
           <button id="themeToggle"
             class="flex items-center justify-center w-10 h-10 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 hover:border-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950 transition-all duration-200 cursor-pointer"
@@ -68,7 +77,6 @@
           </button>
         </li>
 
-        <!-- Language Toggle -->
         <li class="ml-1">
           <button id="langToggle"
             class="flex items-center justify-center w-10 h-10 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 hover:border-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950 transition-all duration-200 cursor-pointer text-xs font-bold tracking-wide"
@@ -80,10 +88,8 @@
     </div>
   </nav>
 
-  <!-- ═══ HERO ═══ -->
   <section id="hero"
     class="relative min-h-screen flex flex-col items-center justify-center px-5 pt-24 pb-12 text-center overflow-hidden">
-    <!-- Background blobs -->
     <div class="absolute inset-0 pointer-events-none overflow-hidden">
       <div
         class="absolute -top-[10%] -right-[10%] w-[500px] h-[500px] rounded-full bg-indigo-500 opacity-10 blur-[80px]">
@@ -96,16 +102,17 @@
       </div>
     </div>
 
-    <div class="relative max-w-2xl reveal">
+    <div id="heroContent" data-star-safe class="relative max-w-2xl">
 
-      <div
-        class="w-36 h-36 mx-auto mb-8 rounded-full overflow-hidden border-4 border-indigo-500 shadow-[0_0_0_8px] shadow-indigo-500/10 hover:scale-110 transition-transform duration-300 cursor-pointer"
-        id="profilePhoto" title="Click para ampliar">
-        <img src="/perfil.jpeg" alt="Matias Espínola" class="w-full h-full object-cover"
-          style="object-position: center 20%;" />
+      <div class="hero-item mb-8" style="animation-delay: 60ms">
+        <div
+          class="w-36 h-36 mx-auto rounded-full overflow-hidden border-4 border-indigo-500 shadow-[0_0_0_8px] shadow-indigo-500/10 hover:scale-110 transition-transform duration-300 cursor-pointer"
+          id="profilePhoto" title="Click para ampliar">
+          <img src="/perfil.jpeg" alt="Matias Espínola" class="w-full h-full object-cover"
+            style="object-position: center 20%;" />
+        </div>
       </div>
 
-      <!-- Profile Photo Modal -->
       <div id="photoModal"
         class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
         <div class="relative max-w-xs mx-auto">
@@ -118,15 +125,18 @@
       </div>
 
       <h1 class="text-3xl md:text-4xl font-light leading-tight mb-1">
-        <span data-i18n="hero.greeting">Hola, soy</span>
-        <span
-          class="block text-4xl md:text-6xl font-extrabold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent mt-1">Matias
-          Espínola</span>
+        <span data-i18n="hero.greeting" data-split data-delay="220" data-step="90">Hola, soy</span>
+        <span class="hero-item block mt-1" style="animation-delay: 420ms">
+          <span
+            class="hero-name block text-4xl md:text-6xl font-extrabold bg-clip-text text-transparent">Matias
+            Espínola</span>
+        </span>
       </h1>
-      <p class="text-xl md:text-2xl font-medium text-slate-500 dark:text-slate-400 mb-6" data-i18n="hero.role">Software
+      <p class="text-xl md:text-2xl font-medium text-slate-500 dark:text-slate-400 mb-6" data-i18n="hero.role"
+        data-split data-delay="700" data-step="90">Software
         Developer</p>
       <p class="text-base md:text-lg text-slate-500 dark:text-slate-400 leading-relaxed max-w-xl mx-auto mb-8"
-        data-i18n="hero.description">
+        data-i18n="hero.description" data-split data-delay="900" data-step="14">
         Me apasiona entender y construir todas las piezas de un producto digital. Mi enfoque principal está en el
         desarrollo de arquitecturas robustas y APIs seguras, garantizando que cada pieza de software sea escalable y
         fácil de mantener.
@@ -136,9 +146,8 @@
         técnico.
       </p>
 
-      <!-- Cv -->
-      <div class="flex flex-col sm:flex-row flex-wrap justify-center gap-3">
-        <a href="/CV%20-%20Matias%20Espinola%20Software%20Developer%20.pdf" download
+      <div class="hero-item flex flex-col sm:flex-row flex-wrap justify-center gap-3" style="animation-delay: 1250ms">
+        <a href="/cv.pdf" download="CV Matias Espinola Software Developer.pdf"
           class="btn-primary inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold rounded-xl text-white bg-gradient-to-r from-indigo-500 to-purple-500 hover:shadow-lg hover:shadow-indigo-500/30 hover:-translate-y-0.5 transition-all duration-200"
           data-i18n="hero.cta.cv">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
@@ -175,12 +184,11 @@
 
   </section>
 
-  <!-- proyectos -->
   <section id="projects" class="py-20 md:py-28">
     <div class="max-w-6xl mx-auto px-5">
-      <h2 class="text-3xl md:text-4xl font-bold text-center mb-2 reveal" data-i18n="projects.title">Proyectos Destacados
+      <h2 data-star-safe class="text-3xl md:text-4xl font-bold text-center mb-2 reveal" data-i18n="projects.title">Proyectos Destacados
       </h2>
-      <p class="text-lg text-slate-500 dark:text-slate-400 text-center mb-12 reveal" data-i18n="projects.subtitle">Una
+      <p data-star-safe class="text-lg text-slate-500 dark:text-slate-400 text-center mb-12 reveal" data-i18n="projects.subtitle">Una
         selección de mi trabajo más reciente</p>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -404,17 +412,15 @@
     </div>
   </section>
 
-  <!-- STACK  -->
-  <section id="skills" class="py-20 md:py-28 bg-slate-100 dark:bg-slate-900/50">
+  <section id="skills" class="py-20 md:py-28">
     <div class="max-w-6xl mx-auto px-5">
-      <h2 class="text-3xl md:text-4xl font-bold text-center mb-2 reveal" data-i18n="skills.title">Tech Stack</h2>
-      <p class="text-lg text-slate-500 dark:text-slate-400 text-center mb-12 reveal" data-i18n="skills.subtitle">
+      <h2 data-star-safe class="text-3xl md:text-4xl font-bold text-center mb-2 reveal" data-i18n="skills.title">Tech Stack</h2>
+      <p data-star-safe class="text-lg text-slate-500 dark:text-slate-400 text-center mb-12 reveal" data-i18n="skills.subtitle">
         Tecnologías y herramientas con las que trabajo</p>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 reveal">
-        <!-- Backend -->
-        <div
-          class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 hover:border-indigo-400 hover:shadow-xl transition-all duration-300">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div style="--reveal-delay: 0s"
+          class="skill-card reveal bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 hover:border-indigo-400 hover:shadow-xl transition-all duration-300">
           <h3 class="text-lg font-semibold mb-4 pb-2 border-b-2 border-indigo-500 inline-block"
             data-i18n="skills.backend">Backend</h3>
           <div class="grid grid-cols-3 gap-3">
@@ -451,9 +457,8 @@
           </div>
         </div>
 
-        <!-- Frontend -->
-        <div
-          class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 hover:border-indigo-400 hover:shadow-xl transition-all duration-300">
+        <div style="--reveal-delay: 0.09s"
+          class="skill-card reveal bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 hover:border-indigo-400 hover:shadow-xl transition-all duration-300">
           <h3 class="text-lg font-semibold mb-4 pb-2 border-b-2 border-indigo-500 inline-block"
             data-i18n="skills.frontend">Frontend</h3>
           <div class="grid grid-cols-3 gap-3">
@@ -461,6 +466,11 @@
               class="skill-item flex flex-col items-center gap-1 p-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:-translate-y-1 transition-all duration-200 cursor-default">
               <i class="devicon-react-original colored text-3xl"></i><span
                 class="text-xs font-medium text-slate-500">React</span>
+            </div>
+            <div
+              class="skill-item flex flex-col items-center gap-1 p-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:-translate-y-1 transition-all duration-200 cursor-default">
+              <i class="devicon-astro-plain colored text-3xl"></i><span
+                class="text-xs font-medium text-slate-500">Astro</span>
             </div>
             <div
               class="skill-item flex flex-col items-center gap-1 p-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:-translate-y-1 transition-all duration-200 cursor-default">
@@ -490,9 +500,8 @@
           </div>
         </div>
 
-        <!-- Data & DB -->
-        <div
-          class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 hover:border-indigo-400 hover:shadow-xl transition-all duration-300">
+        <div style="--reveal-delay: 0.18s"
+          class="skill-card reveal bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 hover:border-indigo-400 hover:shadow-xl transition-all duration-300">
           <h3 class="text-lg font-semibold mb-4 pb-2 border-b-2 border-indigo-500 inline-block" data-i18n="skills.data">
             Data & DB</h3>
           <div class="grid grid-cols-3 gap-3">
@@ -529,17 +538,54 @@
           </div>
         </div>
 
-        <!-- DevOps & Tools -->
-        <div
-          class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 hover:border-indigo-400 hover:shadow-xl transition-all duration-300">
+        <div style="--reveal-delay: 0s"
+          class="skill-card reveal bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 hover:border-indigo-400 hover:shadow-xl transition-all duration-300">
           <h3 class="text-lg font-semibold mb-4 pb-2 border-b-2 border-indigo-500 inline-block"
-            data-i18n="skills.devops">DevOps & Tools</h3>
+            data-i18n="skills.devops">Cloud & DevOps</h3>
           <div class="grid grid-cols-3 gap-3">
+            <div
+              class="skill-item flex flex-col items-center gap-1 p-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:-translate-y-1 transition-all duration-200 cursor-default">
+              <i class="devicon-amazonwebservices-plain colored text-3xl"></i><span
+                class="text-xs font-medium text-slate-500">AWS</span>
+            </div>
             <div
               class="skill-item flex flex-col items-center gap-1 p-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:-translate-y-1 transition-all duration-200 cursor-default">
               <i class="devicon-docker-plain colored text-3xl"></i><span
                 class="text-xs font-medium text-slate-500">Docker</span>
             </div>
+            <div
+              class="skill-item flex flex-col items-center gap-1 p-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:-translate-y-1 transition-all duration-200 cursor-default">
+              <i class="devicon-kubernetes-plain colored text-3xl"></i><span
+                class="text-xs font-medium text-slate-500">Kubernetes</span>
+            </div>
+            <div
+              class="skill-item flex flex-col items-center gap-1 p-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:-translate-y-1 transition-all duration-200 cursor-default">
+              <i class="devicon-jenkins-plain dark:text-white text-3xl"></i><span
+                class="text-xs font-medium text-slate-500">Jenkins</span>
+            </div>
+            <div
+              class="skill-item flex flex-col items-center gap-1 p-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:-translate-y-1 transition-all duration-200 cursor-default">
+              <i class="devicon-vagrant-plain colored text-3xl"></i><span
+                class="text-xs font-medium text-slate-500">Vagrant</span>
+            </div>
+            <div
+              class="skill-item flex flex-col items-center gap-1 p-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:-translate-y-1 transition-all duration-200 cursor-default">
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"
+                class="text-blue-600 dark:text-blue-400" aria-hidden="true">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                <line x1="12" y1="22.08" x2="12" y2="12" />
+              </svg><span class="text-xs font-medium text-slate-500">VirtualBox</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="--reveal-delay: 0.09s"
+          class="skill-card reveal bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 hover:border-indigo-400 hover:shadow-xl transition-all duration-300">
+          <h3 class="text-lg font-semibold mb-4 pb-2 border-b-2 border-indigo-500 inline-block"
+            data-i18n="skills.tools">Herramientas & Lenguajes</h3>
+          <div class="grid grid-cols-3 gap-3">
             <div
               class="skill-item flex flex-col items-center gap-1 p-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:-translate-y-1 transition-all duration-200 cursor-default">
               <i class="devicon-git-plain colored text-3xl"></i><span
@@ -570,26 +616,24 @@
     </div>
   </section>
 
-  <!-- certificados -->
   <section id="certificates" class="py-20 md:py-28">
     <div class="max-w-6xl mx-auto px-5">
-      <h2 class="text-3xl md:text-4xl font-bold text-center mb-2 reveal" data-i18n="certificates.title">Certificados
+      <h2 data-star-safe class="text-3xl md:text-4xl font-bold text-center mb-2 reveal" data-i18n="certificates.title">Certificados
       </h2>
-      <p class="text-lg text-slate-500 dark:text-slate-400 text-center mb-12 reveal" data-i18n="certificates.subtitle">
+      <p data-star-safe class="text-lg text-slate-500 dark:text-slate-400 text-center mb-12 reveal" data-i18n="certificates.subtitle">
         Formación continua y certificaciones profesionales</p>
 
-
-      <div id="certsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 reveal">
+      <div id="certsGrid" class="certs-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <a href="/certificados/Certificate (1).pdf" target="_blank" rel="noopener"
           class="cert-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:border-indigo-400 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 no-underline block">
           <div class="aspect-[4/3] bg-slate-100 dark:bg-slate-800/50 overflow-hidden">
             <embed src="/certificados/Certificate (1).pdf" type="application/pdf" class="w-full h-full" />
           </div>
           <div class="p-5">
-            <h3 class="text-base font-semibold mb-1 text-slate-800 dark:text-slate-100"
+            <h3 class="text-base font-semibold mb-1 text-slate-800 dark:text-slate-100 line-clamp-2 min-h-12"
               data-i18n="certificates.c1.title">AWS Certified Cloud Practitioner</h3>
-            <p class="text-sm text-slate-500 dark:text-slate-400" data-i18n="certificates.c1.org">Amazon Web Services —
-              2026</p>
+            <p class="text-sm text-slate-500 dark:text-slate-400 line-clamp-1" data-i18n="certificates.c1.org">Amazon Web
+              Services — 2026</p>
           </div>
         </a>
 
@@ -599,10 +643,10 @@
             <embed src="/certificados/Certificate (2).pdf" type="application/pdf" class="w-full h-full" />
           </div>
           <div class="p-5">
-            <h3 class="text-base font-semibold mb-1 text-slate-800 dark:text-slate-100"
+            <h3 class="text-base font-semibold mb-1 text-slate-800 dark:text-slate-100 line-clamp-2 min-h-12"
               data-i18n="certificates.c2.title">Fundamentos de Nube</h3>
-            <p class="text-sm text-slate-500 dark:text-slate-400" data-i18n="certificates.c2.org">Amazon Web Services —
-              2026</p>
+            <p class="text-sm text-slate-500 dark:text-slate-400 line-clamp-1" data-i18n="certificates.c2.org">Amazon Web
+              Services — 2026</p>
           </div>
         </a>
 
@@ -612,55 +656,56 @@
             <embed src="/certificados/Certificate (3).pdf" type="application/pdf" class="w-full h-full" />
           </div>
           <div class="p-5">
-            <h3 class="text-base font-semibold mb-1 text-slate-800 dark:text-slate-100"
+            <h3 class="text-base font-semibold mb-1 text-slate-800 dark:text-slate-100 line-clamp-2 min-h-12"
               data-i18n="certificates.c3.title">Gen AI Fundamentos</h3>
-            <p class="text-sm text-slate-500 dark:text-slate-400" data-i18n="certificates.c3.org">Amazon Web Services —
-              2026</p>
+            <p class="text-sm text-slate-500 dark:text-slate-400 line-clamp-1" data-i18n="certificates.c3.org">Amazon Web
+              Services — 2026</p>
           </div>
         </a>
-        <!-- Ver más -->
+
         <a href="/certificados/Gen AI Intermedio.pdf" target="_blank" rel="noopener"
-          class="cert-card cert-extra hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:border-indigo-400 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 no-underline block">
+          class="cert-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:border-indigo-400 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 no-underline block">
           <div class="aspect-[4/3] bg-slate-100 dark:bg-slate-800/50 overflow-hidden">
             <embed src="/certificados/Gen AI Intermedio.pdf" type="application/pdf" class="w-full h-full" />
           </div>
           <div class="p-5">
-            <h3 class="text-base font-semibold mb-1 text-slate-800 dark:text-slate-100"
+            <h3 class="text-base font-semibold mb-1 text-slate-800 dark:text-slate-100 line-clamp-2 min-h-12"
               data-i18n="certificates.c4.title">Gen AI Intermedio</h3>
-            <p class="text-sm text-slate-500 dark:text-slate-400" data-i18n="certificates.c4.org">Amazon Web Services —
-              2026</p>
+            <p class="text-sm text-slate-500 dark:text-slate-400 line-clamp-1" data-i18n="certificates.c4.org">Amazon Web
+              Services — 2026</p>
           </div>
         </a>
+
         <a href="/certificados/Certificado Workshop Trabajo en Equipo y Automotivación.pdf" target="_blank"
           rel="noopener"
-          class="cert-card cert-extra hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:border-indigo-400 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 no-underline block">
+          class="cert-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:border-indigo-400 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 no-underline block">
           <div class="aspect-[4/3] bg-slate-100 dark:bg-slate-800/50 overflow-hidden">
             <embed src="/certificados/Certificado Workshop Trabajo en Equipo y Automotivación.pdf"
               type="application/pdf" class="w-full h-full" />
           </div>
           <div class="p-5">
-            <h3 class="text-base font-semibold mb-1 text-slate-800 dark:text-slate-100"
+            <h3 class="text-base font-semibold mb-1 text-slate-800 dark:text-slate-100 line-clamp-2 min-h-12"
               data-i18n="certificates.c5.title">Trabajo en Equipo y Automotivación</h3>
-            <p class="text-sm text-slate-500 dark:text-slate-400" data-i18n="certificates.c5.org">Penguin Academy —
-              2025</p>
+            <p class="text-sm text-slate-500 dark:text-slate-400 line-clamp-1" data-i18n="certificates.c5.org">Penguin
+              Academy — 2025</p>
           </div>
         </a>
+
         <a href="/certificados/Metodología de Aprendizaje con enfoque en Programació.pdf" target="_blank" rel="noopener"
-          class="cert-card cert-extra hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:border-indigo-400 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 no-underline block">
+          class="cert-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:border-indigo-400 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 no-underline block">
           <div class="aspect-[4/3] bg-slate-100 dark:bg-slate-800/50 overflow-hidden">
             <embed src="/certificados/Metodología de Aprendizaje con enfoque en Programació.pdf" type="application/pdf"
               class="w-full h-full" />
           </div>
           <div class="p-5">
-            <h3 class="text-base font-semibold mb-1 text-slate-800 dark:text-slate-100"
+            <h3 class="text-base font-semibold mb-1 text-slate-800 dark:text-slate-100 line-clamp-2 min-h-12"
               data-i18n="certificates.c6.title">Metodología de Aprendizaje en Programación</h3>
-            <p class="text-sm text-slate-500 dark:text-slate-400" data-i18n="certificates.c6.org">Penguin Academy —
-              2025</p>
+            <p class="text-sm text-slate-500 dark:text-slate-400 line-clamp-1" data-i18n="certificates.c6.org">Penguin
+              Academy — 2025</p>
           </div>
         </a>
       </div>
 
-      <!-- Show Less button -->
       <div class="text-center mt-8 reveal">
         <button id="certsToggle"
           class="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:border-indigo-400 hover:text-indigo-500 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
@@ -675,17 +720,15 @@
     </div>
   </section>
 
-  <!-- contactos -->
-  <section id="contact" class="py-20 md:py-28 bg-slate-100 dark:bg-slate-900/50">
+  <section id="contact" class="py-20 md:py-28 overflow-hidden">
     <div class="max-w-6xl mx-auto px-5">
-      <h2 class="text-3xl md:text-4xl font-bold text-center mb-2 reveal" data-i18n="contact.title">Contacto</h2>
-      <p class="text-lg text-slate-500 dark:text-slate-400 text-center mb-12 reveal" data-i18n="contact.subtitle">
+      <h2 data-star-safe class="text-3xl md:text-4xl font-bold text-center mb-2 reveal" data-i18n="contact.title">Contacto</h2>
+      <p data-star-safe class="text-lg text-slate-500 dark:text-slate-400 text-center mb-12 reveal" data-i18n="contact.subtitle">
         ¿Tienes un proyecto en mente? ¡Hablemos!</p>
 
-      <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 reveal">
-        <!-- Form -->
-        <form id="contactForm"
-          class="lg:col-span-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 grid grid-cols-1 sm:grid-cols-2 gap-5">
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <form id="contactForm" style="--reveal-delay: 0.15s"
+          class="reveal reveal-left lg:col-span-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 grid grid-cols-1 sm:grid-cols-2 gap-5">
           <input type="hidden" name="access_key" value="829b360a-1307-4e87-b3f4-c8acce66e345" />
           <input type="hidden" name="subject" value="Nuevo mensaje desde tu portafolio" />
           <input type="hidden" name="from_name" value="Portfolio Contact Form" />
@@ -720,10 +763,9 @@
           </button>
         </form>
 
-        <!-- Info -->
         <div class="lg:col-span-2 flex flex-col gap-4">
-          <div
-            class="flex items-center gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 hover:border-indigo-400 transition-colors duration-200">
+          <div style="--reveal-delay: 0.25s"
+            class="reveal reveal-right flex items-center gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 hover:border-indigo-400 transition-colors duration-200">
             <div
               class="flex items-center justify-center w-12 h-12 shrink-0 bg-indigo-50 dark:bg-indigo-950 text-indigo-500 rounded-xl">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -739,9 +781,8 @@
                 data-u="rojasmati98" data-d="gmail.com">Cargando...</a>
             </div>
           </div>
-          <!-- WhatsApp -->
-          <a id="obfWhatsApp" href="#" target="_blank" rel="noopener"
-            class="flex items-center gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 hover:border-green-400 transition-colors duration-200 no-underline"
+          <a id="obfWhatsApp" href="#" target="_blank" rel="noopener" style="--reveal-delay: 0.35s"
+            class="reveal reveal-right flex items-center gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 hover:border-green-400 transition-colors duration-200 no-underline"
             data-cc="595" data-num="982201104">
             <div
               class="flex items-center justify-center w-12 h-12 shrink-0 bg-green-50 dark:bg-green-950 text-green-500 rounded-xl">
@@ -755,9 +796,8 @@
               <p id="obfWhatsAppText" class="text-sm text-slate-500 dark:text-slate-400">Cargando...</p>
             </div>
           </a>
-          <!-- ubicacion -->
-          <div
-            class="flex items-center gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 hover:border-indigo-400 transition-colors duration-200">
+          <div style="--reveal-delay: 0.45s"
+            class="reveal reveal-right flex items-center gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 hover:border-indigo-400 transition-colors duration-200">
             <div
               class="flex items-center justify-center w-12 h-12 shrink-0 bg-indigo-50 dark:bg-indigo-950 text-indigo-500 rounded-xl">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -771,8 +811,7 @@
               <p class="text-sm text-slate-500 dark:text-slate-400" data-i18n="contact.location">Asunción, Paraguay</p>
             </div>
           </div>
-          <!-- Social Links -->
-          <div class="flex gap-3 pt-1">
+          <div class="reveal reveal-right flex gap-3 pt-1" style="--reveal-delay: 0.55s">
             <a href="https://github.com/espinola-matias" target="_blank" rel="noopener" aria-label="GitHub"
               class="flex items-center justify-center w-11 h-11 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-500 hover:border-indigo-400 hover:text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-950 hover:-translate-y-0.5 transition-all duration-200">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
@@ -796,7 +835,6 @@
     </div>
   </section>
 
-  <!-- ═══ FOOTER ═══ -->
   <footer class="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 py-6">
     <div class="max-w-6xl mx-auto px-5 flex flex-col md:flex-row items-center justify-between gap-4">
       <p class="text-sm text-slate-400" data-i18n="footer.copy">&copy; 2026 Matias Gabriel Espínola Rojas. Todos los
@@ -815,6 +853,28 @@
       </div>
     </div>
   </footer>
+
+  <button id="scrollTop"
+    class="scroll-top fixed bottom-6 right-6 md:bottom-8 md:right-8 z-40 grid place-items-center w-14 h-14 rounded-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200 dark:border-slate-800 shadow-lg shadow-slate-900/10 dark:shadow-black/40 hover:border-indigo-400 cursor-pointer">
+    <svg class="absolute inset-0 size-full -rotate-90 pointer-events-none" viewBox="0 0 50 50" aria-hidden="true">
+      <defs>
+        <linearGradient id="anilloGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" class="anillo-stop-1" />
+          <stop offset="100%" class="anillo-stop-2" />
+        </linearGradient>
+      </defs>
+      <circle cx="25" cy="25" r="22" fill="none" class="anillo-track" stroke-width="3" />
+      <circle data-anillo cx="25" cy="25" r="22" fill="none" stroke="url(#anilloGrad)" stroke-width="3"
+        stroke-linecap="round" stroke-dasharray="138.23" stroke-dashoffset="138.23" class="anillo" />
+    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+      class="relative text-indigo-500 dark:text-indigo-400">
+      <line x1="12" y1="19" x2="12" y2="5" />
+      <polyline points="5 12 12 5 19 12" />
+    </svg>
+    <span class="sr-only" data-i18n="nav.backToTop">Volver al inicio</span>
+  </button>
 
   <script type="module" src="/src/main.js"></script>
 </body>
