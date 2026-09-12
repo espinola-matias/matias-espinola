@@ -8,6 +8,23 @@
     --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
 }
 
+/* Barras de scroll, campos y menús nativos siguen al tema del sitio */
+:root {
+    color-scheme: light;
+}
+
+:root.dark {
+    color-scheme: dark;
+}
+
+/* Red de seguridad contra el desplazamiento lateral: varias animaciones sacan
+   elementos fuera del borde derecho antes de entrar. `clip` y no `hidden`
+   porque `hidden` acá convertiría al documento en contenedor de scroll y
+   rompería `position: sticky` y el scroll suave. */
+html {
+    overflow-x: clip;
+}
+
 /* ── Scroll Wheel Animation ── */
 @keyframes scroll-wheel {
     0% {
@@ -180,6 +197,66 @@
     animation: skill-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
 
+/* ── Certificados: grilla ──
+   El grid se declara con el DOBLE de columnas de las que se ven y cada tarjeta
+   ocupa dos. El resultado es idéntico al de 1/2/3 columnas —(W−2g)/3 da lo mismo
+   de las dos formas— pero deja media columna de juego para centrar la última
+   fila cuando queda incompleta.
+
+   `--cols` es la única fuente de verdad de cuántas tarjetas entran por fila:
+   el rotador la lee desde JS, así que agregar un breakpoint acá alcanza y no
+   hay que tocar main.js. */
+.certs-grid {
+    --cols: 1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.certs-grid>.cert-card {
+    grid-column: span 2;
+}
+
+@media (min-width: 640px) {
+    .certs-grid {
+        --cols: 2;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1024px) {
+    .certs-grid {
+        --cols: 3;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+}
+
+/* ── Centrado de la última fila incompleta ──
+   Sólo con el listado desplegado: mientras rota siempre hay exactamente una
+   fila llena, y además `:nth-child` cuenta también las tarjetas en display:none,
+   así que fuera de ese estado las cuentas no cerrarían.
+
+   Las reglas van por módulo (`3n + 1`), no por una cantidad fija: al sumar
+   certificados se siguen cumpliendo solas. */
+@media (min-width: 640px) and (max-width: 1023px) {
+
+    /* 2 por fila, sobra una */
+    .certs-grid.certs-expandido .cert-card:last-child:nth-child(2n + 1) {
+        grid-column: 2 / span 2;
+    }
+}
+
+@media (min-width: 1024px) {
+
+    /* 3 por fila, sobra una */
+    .certs-grid.certs-expandido .cert-card:last-child:nth-child(3n + 1) {
+        grid-column: 3 / span 2;
+    }
+
+    /* 3 por fila, sobran dos: se corre la primera y la otra la sigue sola */
+    .certs-grid.certs-expandido .cert-card:nth-last-child(2):nth-child(3n + 1) {
+        grid-column: 2 / span 2;
+    }
+}
+
 /* ── Certificados: entrada lateral + rotación ── */
 .certs-grid .cert-card {
     /* `translate` queda listado aparte para no romper el hover:-translate-y-1 de Tailwind,
@@ -219,6 +296,9 @@
     transform: translateY(1rem) scale(0.85);
     pointer-events: none;
     transition: opacity 0.3s ease, transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+    /* En iPhone con barra de gestos el botón quedaba pisado por ella */
+    margin-bottom: env(safe-area-inset-bottom);
+    margin-right: env(safe-area-inset-right);
 }
 
 .scroll-top.is-visible {
@@ -278,20 +358,28 @@
         position: fixed;
         top: 0;
         right: -100%;
-        width: min(300px, 80vw);
+        width: min(300px, 82vw);
         height: 100vh;
         /* En móvil 100vh mide la ventana con la barra del navegador retraída, así
            que el panel se sale de la pantalla. dvh sigue a la barra al aparecer. */
         height: 100dvh;
         flex-direction: column;
         align-items: flex-start;
-        padding: 5rem 1.5rem 1.5rem;
+        /* Sin espacio arriba: ese lugar lo ocupa .nav-heading, que mide lo mismo
+           que la barra y deja el texto a la altura de la X.
+           El costado derecho respeta el notch/gestos en iPhone apaisado. */
+        padding: 0 1.5rem 1.5rem;
+        padding-right: max(1.5rem, env(safe-area-inset-right));
+        padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
         background: var(--color-white);
         border-left: 1px solid var(--color-slate-200);
         box-shadow: -10px 0 40px rgba(0, 0, 0, 0.06);
         transition: right 0.35s ease;
         gap: 0.25rem;
         display: flex !important;
+        /* Pantallas muy bajas (apaisado): el panel se desplaza en vez de recortarse */
+        overflow-y: auto;
+        overscroll-behavior: contain;
     }
 
     :is(.dark) .nav-links {
@@ -303,10 +391,60 @@
         right: 0;
     }
 
+    .nav-links li {
+        width: 100%;
+    }
+
+    /* Encabezado del panel: misma altura que la barra (4rem), así su texto
+       queda alineado con la X. El hueco de la derecha es para no pasarle
+       por debajo. */
+    .nav-links .nav-heading {
+        display: flex;
+        align-items: center;
+        height: 4rem;
+        flex: none;
+        margin-bottom: 0.75rem;
+        padding-right: 3rem;
+        border-bottom: 1px solid var(--color-slate-200);
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--color-slate-400);
+    }
+
+    /* En 320 px el texto entra justo: si alguna fuente lo estira, se recorta
+       con puntos suspensivos en vez de empujar el panel. */
+    .nav-links .nav-heading span {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    :is(.dark) .nav-links .nav-heading {
+        border-bottom-color: var(--color-slate-800);
+        color: var(--color-slate-500);
+    }
+
     .nav-links .nav-link {
+        display: block;
         width: 100%;
         padding: 0.75rem 1rem;
         font-size: 1rem;
+    }
+
+    /* Tema e idioma: fila propia al pie del panel, separada de los enlaces,
+       en vez de dos botones sueltos apilados. */
+    .nav-links .nav-actions {
+        margin-top: auto;
+        padding-top: 1rem;
+        border-top: 1px solid var(--color-slate-200);
+        justify-content: flex-start;
+    }
+
+    :is(.dark) .nav-links .nav-actions {
+        border-top-color: var(--color-slate-800);
     }
 
     .hamburger.active .hamburger-line:nth-child(1) {
@@ -320,6 +458,31 @@
     .hamburger.active .hamburger-line:nth-child(3) {
         transform: rotate(-45deg) translate(5px, -5px);
     }
+}
+
+/* Con el panel o el diálogo abiertos la página de atrás no debe desplazarse.
+   Van como dos clases y no una compartida para que cerrar uno no suelte el
+   scroll mientras el otro sigue abierto. */
+body.menu-abierto,
+body.foto-abierta {
+    overflow: hidden;
+}
+
+/* ── Foco de teclado ──
+   Sólo :focus-visible, así el anillo aparece al tabular y no al hacer clic.
+   Antes cada control dependía del estilo por defecto del navegador, que sobre
+   el fondo oscuro casi no se veía. */
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+    outline: 2px solid var(--color-indigo-500);
+    outline-offset: 3px;
+}
+
+:is(.dark) a:focus-visible,
+:is(.dark) button:focus-visible,
+:is(.dark) [tabindex]:focus-visible {
+    outline-color: var(--color-indigo-400);
 }
 
 /* ── Reduced Motion ── */
