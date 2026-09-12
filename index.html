@@ -153,6 +153,9 @@
         <li><a href="#projects"
             class="nav-link px-3 py-2 text-sm font-medium text-slate-500 dark:text-slate-400 rounded-lg hover:text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-950 transition-all duration-200"
             data-i18n="nav.projects">Proyectos</a></li>
+        <li><a href="#news"
+            class="nav-link px-3 py-2 text-sm font-medium text-slate-500 dark:text-slate-400 rounded-lg hover:text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-950 transition-all duration-200"
+            data-i18n="nav.news">Novedades</a></li>
         <li><a href="#skills"
             class="nav-link px-3 py-2 text-sm font-medium text-slate-500 dark:text-slate-400 rounded-lg hover:text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-950 transition-all duration-200"
             data-i18n="nav.skills">Habilidades</a></li>
@@ -305,13 +308,19 @@
 
         <article
           class="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:-translate-y-1.5 hover:shadow-2xl hover:border-indigo-400 transition-all duration-300 reveal">
-          <div class="relative aspect-video bg-slate-100 dark:bg-slate-800/50 overflow-hidden">
-            <div class="flex items-center justify-center h-full text-slate-300 dark:text-slate-600">
-              <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1.5">
-                <path
-                  d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-              </svg>
+          <div class="relative aspect-video overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-indigo-950/40 dark:via-slate-900 dark:to-purple-950/30">
+            <div class="absolute top-0 inset-x-0 h-8 flex items-center gap-1.5 px-3 bg-white/70 dark:bg-slate-900/60 border-b border-slate-200/70 dark:border-slate-700/50 backdrop-blur-sm z-10">
+              <span class="w-2.5 h-2.5 rounded-full bg-red-400/70"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-400/70"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400/70"></span>
+              <span class="ml-2 text-[11px] font-mono text-slate-400 dark:text-slate-500 truncate">pedidos_service.py</span>
+            </div>
+            <div class="h-full flex flex-col items-center justify-center gap-3 pt-8">
+              <div class="flex items-center gap-3">
+<i class="devicon-python-plain colored text-4xl"></i>
+                <i class="devicon-flask-original dark:text-white text-4xl"></i>
+              </div>
+              <span class="px-2.5 py-1 text-[11px] font-mono font-semibold rounded-md bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300">Microservicios · REST</span>
             </div>
             <div
               class="absolute inset-0 bg-indigo-900/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -328,26 +337,32 @@
               inter-servicios via APIs REST y autenticación con JWT.</p>
             <div class="flex flex-wrap gap-2">
               <span
-                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-500 rounded-md">Python</span>
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">Python</span>
               <span
-                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-500 rounded-md">Flask</span>
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">Flask</span>
               <span
-                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-500 rounded-md">SQLite</span>
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">SQLite</span>
               <span
-                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-500 rounded-md">JWT</span>
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">JWT</span>
             </div>
           </div>
         </article>
 
         <article
           class="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:-translate-y-1.5 hover:shadow-2xl hover:border-indigo-400 transition-all duration-300 reveal">
-          <div class="relative aspect-video bg-slate-100 dark:bg-slate-800/50 overflow-hidden">
-            <div class="flex items-center justify-center h-full text-slate-300 dark:text-slate-600">
-              <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1.5">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-              </svg>
+          <div class="relative aspect-video overflow-hidden bg-gradient-to-br from-purple-50 via-white to-indigo-50 dark:from-purple-950/40 dark:via-slate-900 dark:to-indigo-950/30">
+            <div class="absolute top-0 inset-x-0 h-8 flex items-center gap-1.5 px-3 bg-white/70 dark:bg-slate-900/60 border-b border-slate-200/70 dark:border-slate-700/50 backdrop-blur-sm z-10">
+              <span class="w-2.5 h-2.5 rounded-full bg-red-400/70"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-400/70"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400/70"></span>
+              <span class="ml-2 text-[11px] font-mono text-slate-400 dark:text-slate-500 truncate">auth_server.js</span>
+            </div>
+            <div class="h-full flex flex-col items-center justify-center gap-3 pt-8">
+              <div class="flex items-center gap-3">
+<i class="devicon-nodejs-plain colored text-4xl"></i>
+                <i class="devicon-express-original dark:text-white text-4xl"></i>
+              </div>
+              <span class="px-2.5 py-1 text-[11px] font-mono font-semibold rounded-md bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300">JWT + Sessions</span>
             </div>
             <div
               class="absolute inset-0 bg-indigo-900/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -365,25 +380,32 @@
               cuenta y headers seguros con Helmet.</p>
             <div class="flex flex-wrap gap-2">
               <span
-                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-500 rounded-md">Node.js</span>
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">Node.js</span>
               <span
-                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-500 rounded-md">Express</span>
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">Express</span>
               <span
-                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-500 rounded-md">SQLite</span>
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">SQLite</span>
               <span
-                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-500 rounded-md">JWT</span>
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">JWT</span>
             </div>
           </div>
         </article>
 
         <article
           class="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:-translate-y-1.5 hover:shadow-2xl hover:border-indigo-400 transition-all duration-300 reveal">
-          <div class="relative aspect-video bg-slate-100 dark:bg-slate-800/50 overflow-hidden">
-            <div class="flex items-center justify-center h-full text-slate-300 dark:text-slate-600">
-              <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1.5">
-                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-              </svg>
+          <div class="relative aspect-video overflow-hidden bg-gradient-to-br from-teal-50 via-white to-indigo-50 dark:from-teal-950/40 dark:via-slate-900 dark:to-indigo-950/30">
+            <div class="absolute top-0 inset-x-0 h-8 flex items-center gap-1.5 px-3 bg-white/70 dark:bg-slate-900/60 border-b border-slate-200/70 dark:border-slate-700/50 backdrop-blur-sm z-10">
+              <span class="w-2.5 h-2.5 rounded-full bg-red-400/70"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-400/70"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400/70"></span>
+              <span class="ml-2 text-[11px] font-mono text-slate-400 dark:text-slate-500 truncate">analysis.ipynb</span>
+            </div>
+            <div class="h-full flex flex-col items-center justify-center gap-3 pt-8">
+              <div class="flex items-center gap-3">
+<i class="devicon-python-plain colored text-4xl"></i>
+                <i class="devicon-jupyter-plain colored text-4xl"></i>
+              </div>
+              <span class="px-2.5 py-1 text-[11px] font-mono font-semibold rounded-md bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300">Data Analysis</span>
             </div>
             <div
               class="absolute inset-0 bg-indigo-900/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -401,13 +423,13 @@
               Portugal con series temporales 2014-2018.</p>
             <div class="flex flex-wrap gap-2">
               <span
-                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-500 rounded-md">Python</span>
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">Python</span>
               <span
-                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-500 rounded-md">Pandas</span>
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">Pandas</span>
               <span
-                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-500 rounded-md">Jupyter</span>
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">Jupyter</span>
               <span
-                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-500 rounded-md">Data
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">Data
                 Analysis</span>
             </div>
           </div>
@@ -415,13 +437,19 @@
 
         <article
           class="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:-translate-y-1.5 hover:shadow-2xl hover:border-indigo-400 transition-all duration-300 reveal">
-          <div class="relative aspect-video bg-slate-100 dark:bg-slate-800/50 overflow-hidden">
-            <div class="flex items-center justify-center h-full text-slate-300 dark:text-slate-600">
-              <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1.5">
-                <path d="M12 20h9" />
-                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
-              </svg>
+          <div class="relative aspect-video overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-teal-50 dark:from-indigo-950/40 dark:via-slate-900 dark:to-teal-950/30">
+            <div class="absolute top-0 inset-x-0 h-8 flex items-center gap-1.5 px-3 bg-white/70 dark:bg-slate-900/60 border-b border-slate-200/70 dark:border-slate-700/50 backdrop-blur-sm z-10">
+              <span class="w-2.5 h-2.5 rounded-full bg-red-400/70"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-400/70"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400/70"></span>
+              <span class="ml-2 text-[11px] font-mono text-slate-400 dark:text-slate-500 truncate">voting_app.js</span>
+            </div>
+            <div class="h-full flex flex-col items-center justify-center gap-3 pt-8">
+              <div class="flex items-center gap-3">
+<i class="devicon-nodejs-plain colored text-4xl"></i>
+                <i class="devicon-sqlite-plain colored text-4xl"></i>
+              </div>
+              <span class="px-2.5 py-1 text-[11px] font-mono font-semibold rounded-md bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300">MVC · Triggers</span>
             </div>
             <div
               class="absolute inset-0 bg-indigo-900/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -438,27 +466,32 @@
               relacional con triggers.</p>
             <div class="flex flex-wrap gap-2">
               <span
-                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-500 rounded-md">Node.js</span>
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">Node.js</span>
               <span
-                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-500 rounded-md">Express</span>
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">Express</span>
               <span
-                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-500 rounded-md">SQLite</span>
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">SQLite</span>
               <span
-                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-500 rounded-md">MVC</span>
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">MVC</span>
             </div>
           </div>
         </article>
 
         <article
           class="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:-translate-y-1.5 hover:shadow-2xl hover:border-indigo-400 transition-all duration-300 reveal">
-          <div class="relative aspect-video bg-slate-100 dark:bg-slate-800/50 overflow-hidden">
-            <div class="flex items-center justify-center h-full text-slate-300 dark:text-slate-600">
-              <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1.5">
-                <ellipse cx="12" cy="5" rx="9" ry="3" />
-                <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
-                <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
-              </svg>
+          <div class="relative aspect-video overflow-hidden bg-gradient-to-br from-purple-50 via-white to-teal-50 dark:from-purple-950/40 dark:via-slate-900 dark:to-teal-950/30">
+            <div class="absolute top-0 inset-x-0 h-8 flex items-center gap-1.5 px-3 bg-white/70 dark:bg-slate-900/60 border-b border-slate-200/70 dark:border-slate-700/50 backdrop-blur-sm z-10">
+              <span class="w-2.5 h-2.5 rounded-full bg-red-400/70"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-400/70"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400/70"></span>
+              <span class="ml-2 text-[11px] font-mono text-slate-400 dark:text-slate-500 truncate">scraper.py</span>
+            </div>
+            <div class="h-full flex flex-col items-center justify-center gap-3 pt-8">
+              <div class="flex items-center gap-3">
+<i class="devicon-python-plain colored text-4xl"></i>
+                <i class="devicon-sqlite-plain colored text-4xl"></i>
+              </div>
+              <span class="px-2.5 py-1 text-[11px] font-mono font-semibold rounded-md bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300">Scraping · API</span>
             </div>
             <div
               class="absolute inset-0 bg-indigo-900/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -474,25 +507,37 @@
               normalizada (3NF).</p>
             <div class="flex flex-wrap gap-2">
               <span
-                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-500 rounded-md">Python</span>
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">Python</span>
               <span
-                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-500 rounded-md">SQLite</span>
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">SQLite</span>
               <span
-                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-500 rounded-md">BeautifulSoup</span>
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">BeautifulSoup</span>
               <span
-                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-500 rounded-md">API</span>
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">API</span>
             </div>
           </div>
         </article>
 
         <article
           class="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:-translate-y-1.5 hover:shadow-2xl hover:border-indigo-400 transition-all duration-300 reveal">
-          <div class="relative aspect-video bg-slate-100 dark:bg-slate-800/50 overflow-hidden">
-            <div class="flex items-center justify-center h-full text-slate-300 dark:text-slate-600">
-              <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1.5">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-              </svg>
+          <div class="relative aspect-video overflow-hidden bg-gradient-to-br from-teal-50 via-white to-purple-50 dark:from-teal-950/40 dark:via-slate-900 dark:to-purple-950/30">
+            <div class="absolute top-0 inset-x-0 h-8 flex items-center gap-1.5 px-3 bg-white/70 dark:bg-slate-900/60 border-b border-slate-200/70 dark:border-slate-700/50 backdrop-blur-sm z-10">
+              <span class="w-2.5 h-2.5 rounded-full bg-red-400/70"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-400/70"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400/70"></span>
+              <span class="ml-2 text-[11px] font-mono text-slate-400 dark:text-slate-500 truncate">chat_server.py</span>
+            </div>
+            <div class="h-full flex flex-col items-center justify-center gap-3 pt-8">
+              <div class="flex items-center gap-3">
+<i class="devicon-python-plain colored text-4xl"></i>
+                <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"
+                  class="text-teal-600 dark:text-teal-300" aria-hidden="true">
+                  <circle cx="5" cy="6" r="2.4" /><circle cx="19" cy="6" r="2.4" /><circle cx="12" cy="18" r="2.4" />
+                  <path d="M7 7.5 10 16M17 7.5 14 16M7.4 6h9.2" />
+                </svg>
+              </div>
+              <span class="px-2.5 py-1 text-[11px] font-mono font-semibold rounded-md bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300">TCP · Threading</span>
             </div>
             <div
               class="absolute inset-0 bg-indigo-900/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -508,16 +553,114 @@
               clientes, broadcast y thread-safety con locks.</p>
             <div class="flex flex-wrap gap-2">
               <span
-                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-500 rounded-md">Python</span>
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">Python</span>
               <span
-                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-500 rounded-md">Sockets</span>
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">Sockets</span>
               <span
-                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-500 rounded-md">Threading</span>
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">Threading</span>
               <span
-                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-500 rounded-md">TCP</span>
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">TCP</span>
             </div>
           </div>
         </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="news" class="py-20 md:py-28">
+    <div class="max-w-6xl mx-auto px-5">
+      <h2 data-star-safe class="text-3xl md:text-4xl font-bold text-center mb-2 reveal" data-i18n="news.title">Novedades
+      </h2>
+      <p data-star-safe class="text-lg text-slate-500 dark:text-slate-400 text-center mb-12 reveal" data-i18n="news.subtitle">
+        Sitios web que diseñé y desarrollé para clientes reales</p>
+
+      <div class="grid grid-cols-1 gap-6">
+
+        <a href="https://cgcep.org" target="_blank" rel="noopener"
+          class="group grid md:grid-cols-5 items-stretch bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:border-indigo-400 hover:shadow-xl transition-all duration-300 reveal no-underline">
+          <div class="relative md:col-span-2 min-w-0 aspect-video md:aspect-auto md:min-h-60 overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-indigo-950/40 dark:via-slate-900 dark:to-purple-950/30">
+            <div class="absolute top-0 inset-x-0 h-8 flex items-center gap-1.5 px-3 bg-white/70 dark:bg-slate-900/60 border-b border-slate-200/70 dark:border-slate-700/50 backdrop-blur-sm z-10">
+              <span class="w-2.5 h-2.5 rounded-full bg-red-400/70"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-400/70"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400/70"></span>
+              <span class="ml-2 flex-1 px-2 py-0.5 rounded bg-white/70 dark:bg-slate-800/70 text-[10px] font-mono text-slate-500 dark:text-slate-400 text-center truncate">cgcep.org</span>
+            </div>
+            <div class="absolute top-8 inset-x-0 bottom-0 flex flex-col items-center justify-center gap-3 p-4">
+              <span class="text-slate-500 dark:text-slate-300"><svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M2 20h20" /><path d="M4 20V10M8 20V10M12 20V10M16 20V10M20 20V10" />
+                  <path d="M2 10l10-6 10 6" />
+                </svg></span>
+              <span class="px-2.5 py-1 text-[11px] font-mono font-semibold rounded-md bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300"
+                data-i18n="news.n1.badge">Gremio profesional</span>
+            </div>
+          </div>
+          <div class="md:col-span-3 min-w-0 p-6 md:p-8 flex flex-col justify-center gap-3">
+            <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100 break-words" data-i18n="news.n1.title">Colegio de Graduados en Ciencias Económicas (CGCEP)</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed" data-i18n="news.n1.desc">Sitio institucional para el Colegio de Graduados en Ciencias Económicas del Paraguay, el gremio que nuclea a los profesionales en ciencias económicas del país desde 1946. Comunica su historia y autoridades, difunde noticias, eventos y capacitaciones, y canaliza la afiliación de nuevos socios — todo en un sitio 100% estático, sin cookies ni rastreadores, con seguridad reforzada y accesibilidad verificada.</p>
+            <div class="flex flex-wrap gap-2 pt-1">
+              <span
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">Astro</span>
+              <span
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">Tailwind CSS</span>
+              <span
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">TypeScript</span>
+              <span
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">Cloudflare Pages</span>
+            </div>
+            <span class="inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-600 dark:text-indigo-400 mt-2">
+              <span data-i18n="news.viewSite">Ver Sitio</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                class="transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">
+                <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <a href="https://clubdeleonescapiata.org" target="_blank" rel="noopener"
+          class="group grid md:grid-cols-5 items-stretch bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:border-indigo-400 hover:shadow-xl transition-all duration-300 reveal no-underline">
+          <div class="relative md:col-span-2 min-w-0 aspect-video md:aspect-auto md:min-h-60 overflow-hidden bg-gradient-to-br from-teal-50 via-white to-indigo-50 dark:from-teal-950/40 dark:via-slate-900 dark:to-indigo-950/30">
+            <div class="absolute top-0 inset-x-0 h-8 flex items-center gap-1.5 px-3 bg-white/70 dark:bg-slate-900/60 border-b border-slate-200/70 dark:border-slate-700/50 backdrop-blur-sm z-10">
+              <span class="w-2.5 h-2.5 rounded-full bg-red-400/70"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-400/70"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400/70"></span>
+              <span class="ml-2 flex-1 px-2 py-0.5 rounded bg-white/70 dark:bg-slate-800/70 text-[10px] font-mono text-slate-500 dark:text-slate-400 text-center truncate">clubdeleonescapiata.org</span>
+            </div>
+            <div class="absolute top-8 inset-x-0 bottom-0 flex flex-col items-center justify-center gap-3 p-4">
+              <span class="text-slate-500 dark:text-slate-300"><svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" />
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg></span>
+              <span class="px-2.5 py-1 text-[11px] font-mono font-semibold rounded-md bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300"
+                data-i18n="news.n2.badge">Organización comunitaria</span>
+            </div>
+          </div>
+          <div class="md:col-span-3 min-w-0 p-6 md:p-8 flex flex-col justify-center gap-3">
+            <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100 break-words" data-i18n="news.n2.title">Club de Leones de Capiatá</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed" data-i18n="news.n2.desc">Sitio institucional pensado para impulsar el crecimiento y la expansión digital del Club de Leones de Capiatá, organización de servicio comunitario fundada en 1977. Presenta su historia, autoridades, causas y actividades, y abre un canal propio para sumar voluntarios y socios — con gestión de contenido incluida, para que el club siga creciendo sin depender de un desarrollador en cada actualización.</p>
+            <div class="flex flex-wrap gap-2 pt-1">
+              <span
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">Angular</span>
+              <span
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">Firebase</span>
+              <span
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">Tailwind CSS</span>
+              <span
+                class="px-2.5 py-0.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-md">Cloudflare</span>
+            </div>
+            <span class="inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-600 dark:text-indigo-400 mt-2">
+              <span data-i18n="news.viewSite">Ver Sitio</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                class="transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">
+                <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+              </svg>
+            </span>
+          </div>
+        </a>
       </div>
     </div>
   </section>
@@ -682,6 +825,11 @@
             </div>
             <div
               class="skill-item flex flex-col items-center gap-1 p-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:-translate-y-1 transition-all duration-200 cursor-default">
+              <i class="devicon-githubactions-plain dark:text-white text-3xl"></i><span
+                class="text-xs font-medium text-slate-500 dark:text-slate-400">GitHub Actions</span>
+            </div>
+            <div
+              class="skill-item flex flex-col items-center gap-1 p-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:-translate-y-1 transition-all duration-200 cursor-default">
               <i class="devicon-ansible-plain dark:text-white text-3xl"></i><span
                 class="text-xs font-medium text-slate-500 dark:text-slate-400">Ansible</span>
             </div>
@@ -718,6 +866,16 @@
               class="skill-item flex flex-col items-center gap-1 p-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:-translate-y-1 transition-all duration-200 cursor-default">
               <i class="devicon-github-original dark:text-white text-3xl"></i><span
                 class="text-xs font-medium text-slate-500 dark:text-slate-400">GitHub</span>
+            </div>
+            <div
+              class="skill-item flex flex-col items-center gap-1 p-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:-translate-y-1 transition-all duration-200 cursor-default">
+              <i class="devicon-bash-plain dark:text-white text-3xl"></i><span
+                class="text-xs font-medium text-slate-500 dark:text-slate-400">Bash</span>
+            </div>
+            <div
+              class="skill-item flex flex-col items-center gap-1 p-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:-translate-y-1 transition-all duration-200 cursor-default">
+              <i class="devicon-linux-plain dark:text-white text-3xl"></i><span
+                class="text-xs font-medium text-slate-500 dark:text-slate-400">Linux</span>
             </div>
             <div
               class="skill-item flex flex-col items-center gap-1 p-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:-translate-y-1 transition-all duration-200 cursor-default">
@@ -996,7 +1154,7 @@
           <div style="--reveal-delay: 0.25s"
             class="reveal reveal-right flex items-center gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 hover:border-indigo-400 transition-colors duration-200">
             <div
-              class="flex items-center justify-center w-12 h-12 shrink-0 bg-indigo-50 dark:bg-indigo-950 text-indigo-500 rounded-xl">
+              class="flex items-center justify-center w-12 h-12 shrink-0 bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-xl">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
@@ -1028,7 +1186,7 @@
           <div style="--reveal-delay: 0.45s"
             class="reveal reveal-right flex items-center gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 hover:border-indigo-400 transition-colors duration-200">
             <div
-              class="flex items-center justify-center w-12 h-12 shrink-0 bg-indigo-50 dark:bg-indigo-950 text-indigo-500 rounded-xl">
+              class="flex items-center justify-center w-12 h-12 shrink-0 bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 rounded-xl">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
@@ -1074,6 +1232,8 @@
           data-i18n="nav.home">Inicio</a>
         <a href="#projects" class="text-sm text-slate-500 dark:text-slate-400 hover:text-indigo-500 transition-colors"
           data-i18n="nav.projects">Proyectos</a>
+        <a href="#news" class="text-sm text-slate-500 dark:text-slate-400 hover:text-indigo-500 transition-colors"
+          data-i18n="nav.news">Novedades</a>
         <a href="#skills" class="text-sm text-slate-500 dark:text-slate-400 hover:text-indigo-500 transition-colors"
           data-i18n="nav.skills">Habilidades</a>
         <a href="#certificates"

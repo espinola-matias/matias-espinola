@@ -1,0 +1,26 @@
+#!/bin/sh
+# Bloquea el push si el proyecto no compila o no pasa las verificaciones.
+#
+# Para activarlo (una sola vez, en cada clon del repo):
+#   git config core.hooksPath .githooks
+#
+# Para saltearlo en una emergencia puntual:
+#   git push --no-verify
+
+echo "→ Verificando antes de pushear..."
+
+if ! npm run build --silent; then
+  echo ""
+  echo "✗ El build falló. Push cancelado."
+  exit 1
+fi
+
+if ! npm test --silent; then
+  echo ""
+  echo "✗ Las verificaciones fallaron. Push cancelado."
+  echo "  Corregí lo de arriba, o usá 'git push --no-verify' si es una emergencia."
+  exit 1
+fi
+
+echo "✓ Todo en orden, pusheando."
+exit 0

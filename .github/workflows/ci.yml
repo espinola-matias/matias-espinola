@@ -1,0 +1,46 @@
+name: CI
+
+# Corre en cada push a main y en cada PR hacia main.
+# El objetivo es que nada llegue a main sin compilar y sin pasar las
+# verificaciones. Para que sea obligatorio de verdad hay que activar la
+# protección de rama en GitHub (ver README de abajo).
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Si se pushea dos veces seguidas, cancela la corrida vieja: no tiene sentido
+# gastar minutos verificando un commit que ya quedó atrás.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verificar:
+    name: Compilar y verificar
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Traer el código
+        uses: actions/checkout@v4
+
+      - name: Preparar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      # `npm ci` en vez de `npm install`: instala exactamente lo que dice
+      # package-lock.json y falla si están desincronizados.
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Compilar
+        run: npm run build
+
+      # Se corre después del build para que también revise dist/:
+      # que estén sitemap.xml, robots.txt, _headers, y que no se hayan
+      # colado al deploy los originales pesados del logo y la foto.
+      - name: Verificar
+        run: npm test

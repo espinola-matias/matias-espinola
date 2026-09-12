@@ -13,10 +13,13 @@ import './starfield.js';
         es: {
             'nav.home': 'Inicio',
             'nav.projects': 'Proyectos',
+            'nav.news': 'Novedades',
             'nav.skills': 'Habilidades',
             'nav.certificates': 'Certificados',
             'nav.contact': 'Contacto',
             'nav.backToTop': 'Volver al inicio',
+            'meta.title': 'Matias Espínola — Software Developer',
+            'meta.description': 'Software Developer en Asunción, Paraguay. Desarrollo APIs seguras, microservicios y arquitecturas backend escalables con Python, Node.js y AWS.',
             'hero.greeting': 'Hola, soy',
             'hero.role': 'Software Developer',
             'hero.description': 'Me apasiona entender y construir todas las piezas de un producto digital. Mi enfoque principal está en el desarrollo de arquitecturas robustas y APIs seguras, garantizando que cada pieza de software sea escalable y fácil de mantener. Disfruto explorar y conectar diferentes tecnologías para resolver problemas reales. Me considero una persona versátil, con gran capacidad de adaptación y siempre dispuesto a sumar nuevas herramientas a mi ecosistema técnico.',
@@ -39,6 +42,15 @@ import './starfield.js';
             'projects.p5.desc': 'Web scraping con BeautifulSoup, enriquecimiento de datos con Google Books API y base de datos relacional normalizada (3NF).',
             'projects.p6.title': 'Chat Multihilo con Sockets TCP',
             'projects.p6.desc': 'Chat en tiempo real con arquitectura cliente-servidor usando TCP Sockets, threading para múltiples clientes, broadcast y thread-safety con locks.',
+            'news.title': 'Novedades',
+            'news.subtitle': 'Sitios web que diseñé y desarrollé para clientes reales',
+            'news.viewSite': 'Ver Sitio',
+            'news.n1.badge': 'Gremio profesional',
+            'news.n1.title': 'Colegio de Graduados en Ciencias Económicas (CGCEP)',
+            'news.n1.desc': 'Sitio institucional para el Colegio de Graduados en Ciencias Económicas del Paraguay, el gremio que nuclea a los profesionales en ciencias económicas del país desde 1946. Comunica su historia y autoridades, difunde noticias, eventos y capacitaciones, y canaliza la afiliación de nuevos socios — todo en un sitio 100% estático, sin cookies ni rastreadores, con seguridad reforzada y accesibilidad verificada.',
+            'news.n2.badge': 'Organización comunitaria',
+            'news.n2.title': 'Club de Leones de Capiatá',
+            'news.n2.desc': 'Sitio institucional pensado para impulsar el crecimiento y la expansión digital del Club de Leones de Capiatá, organización de servicio comunitario fundada en 1977. Presenta su historia, autoridades, causas y actividades, y abre un canal propio para sumar voluntarios y socios — con gestión de contenido incluida, para que el club siga creciendo sin depender de un desarrollador en cada actualización.',
             'skills.title': 'Tech Stack',
             'skills.subtitle': 'Tecnologías y herramientas con las que trabajo',
             'skills.backend': 'Backend',
@@ -79,10 +91,13 @@ import './starfield.js';
         en: {
             'nav.home': 'Home',
             'nav.projects': 'Projects',
+            'nav.news': 'Recent Work',
             'nav.skills': 'Skills',
             'nav.certificates': 'Certificates',
             'nav.contact': 'Contact',
             'nav.backToTop': 'Back to top',
+            'meta.title': 'Matias Espínola — Software Developer',
+            'meta.description': 'Software Developer based in Asunción, Paraguay. I build secure APIs, microservices and scalable backend architectures with Python, Node.js and AWS.',
             'hero.greeting': "Hi, I'm",
             'hero.role': 'Software Developer',
             'hero.description': 'I am passionate about understanding and building every piece of a digital product. My main focus is on developing robust architectures and secure APIs, ensuring every piece of software is scalable and maintainable. I enjoy exploring and connecting different technologies to solve real-world problems. I consider myself a versatile person, highly adaptable and always ready to add new tools to my technical ecosystem.',
@@ -105,6 +120,15 @@ import './starfield.js';
             'projects.p5.desc': 'Web scraping with BeautifulSoup, data enrichment via Google Books API and normalized relational database (3NF).',
             'projects.p6.title': 'Multithreaded TCP Socket Chat',
             'projects.p6.desc': 'Real-time chat with client-server architecture using TCP Sockets, threading for multiple clients, broadcast and thread-safety with locks.',
+            'news.title': 'Recent Work',
+            'news.subtitle': 'Websites I designed and built for real clients',
+            'news.viewSite': 'Visit Site',
+            'news.n1.badge': 'Professional Guild',
+            'news.n1.title': 'Paraguayan Association of Economics Graduates (CGCEP)',
+            'news.n1.desc': "Institutional site for the Paraguayan Association of Economics Graduates, the guild representing the country's economics professionals since 1946. It shares the organization's history and leadership, publishes news, events and training, and channels new member sign-ups — all on a fully static site, with no cookies or trackers, hardened security and verified accessibility.",
+            'news.n2.badge': 'Community Organization',
+            'news.n2.title': 'Capiatá Lions Club',
+            'news.n2.desc': "An institutional site built to drive the digital growth and expansion of the Capiatá Lions Club, a community-service organization founded in 1977. It presents the club's history, leadership, causes and activities, and opens a direct channel to bring in volunteers and members — with content management included, so growth never depends on a developer for every update.",
             'skills.title': 'Tech Stack',
             'skills.subtitle': 'Technologies and tools I work with',
             'skills.backend': 'Backend',
@@ -256,6 +280,10 @@ import './starfield.js';
                 if (strings[key] !== undefined) el.setAttribute(attr, strings[key]);
             });
         });
+
+        if (strings['meta.title']) document.title = strings['meta.title'];
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc && strings['meta.description']) metaDesc.setAttribute('content', strings['meta.description']);
 
         langLabel.textContent = lang === 'es' ? 'EN' : 'ES';
         html.setAttribute('lang', lang);
@@ -628,6 +656,15 @@ import './starfield.js';
         return Math.max(1, Math.min(cols || 1, certCards.length));
     }
 
+    // Con una sola columna (celular) rotar de a una tarjeta cada 8 s obliga a
+    // esperar o tocar "Ver más" para ver el resto: peor experiencia que
+    // mostrarlas todas apiladas de entrada, que es como se lee cualquier lista
+    // larga en una pantalla angosta. Ahí se muestran todas y no hay nada que
+    // rotar ni que expandir.
+    function modoListaCompleta() {
+        return comboSlots <= 1;
+    }
+
     // Deja en pantalla exactamente `combo`. Con offstage=true las coloca ya fuera
     // del costado derecho: como venían de display:none, ese salto no se anima.
     function layoutCombo(combo, offstage) {
@@ -685,7 +722,7 @@ import './starfield.js';
     }
 
     function startRotation() {
-        if (rotateTimer || certCards.length <= comboSlots) return;
+        if (modoListaCompleta() || rotateTimer || certCards.length <= comboSlots) return;
         rotateTimer = window.setInterval(() => {
             // Se saltea el turno si no aporta nada: fuera de pantalla, pestaña en
             // segundo plano, mouse encima (para poder leer o clickear) o expandido.
@@ -701,10 +738,18 @@ import './starfield.js';
 
     if (certCards.length) {
         comboSlots = slotCount();
-        refillPool();
-        // Estado inicial: la primera combinación ya colocada, pero esperando fuera
-        // del costado hasta que la sección entre en pantalla.
-        layoutCombo(takeNextCombo(), true);
+        if (certsToggle) certsToggle.hidden = modoListaCompleta();
+
+        if (modoListaCompleta()) {
+            // Sin espacio para rotar: van todas, ya en su posición final, a la
+            // espera de que la sección entre en pantalla para deslizarse adentro.
+            layoutCombo(certCards.map((_, i) => i), true);
+        } else {
+            refillPool();
+            // Estado inicial: la primera combinación ya colocada, pero esperando fuera
+            // del costado hasta que la sección entre en pantalla.
+            layoutCombo(takeNextCombo(), true);
+        }
 
         const certsObserver = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
@@ -724,13 +769,27 @@ import './starfield.js';
         certsGrid.addEventListener('focusout', () => { certsHovered = false; });
 
         // Al cambiar de breakpoint cambia cuántas caben en la fila: nuevo tamaño
-        // de combinación, nuevo ciclo.
+        // de combinación, nuevo ciclo. Cruzar hacia o desde el modo de lista
+        // completa (celular) además prende o apaga la rotación entera.
         window.addEventListener('resize', () => {
             const slots = slotCount();
             if (slots === comboSlots) return;
             comboSlots = slots;
+            if (certsToggle) certsToggle.hidden = modoListaCompleta();
+
+            if (modoListaCompleta()) {
+                stopRotation();
+                certsExpanded = false;
+                certsGrid.classList.remove('certs-expandido');
+                layoutCombo(certCards.map((_, i) => i), false);
+                return;
+            }
+
             refillPool();
-            if (!certsExpanded) layoutCombo(takeNextCombo(), false);
+            if (!certsExpanded) {
+                layoutCombo(takeNextCombo(), false);
+                startRotation();
+            }
         });
     }
 
