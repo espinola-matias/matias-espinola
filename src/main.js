@@ -20,6 +20,7 @@ import './starfield.js';
             'hero.greeting': 'Hola, soy',
             'hero.role': 'Software Developer',
             'hero.description': 'Me apasiona entender y construir todas las piezas de un producto digital. Mi enfoque principal está en el desarrollo de arquitecturas robustas y APIs seguras, garantizando que cada pieza de software sea escalable y fácil de mantener. Disfruto explorar y conectar diferentes tecnologías para resolver problemas reales. Me considero una persona versátil, con gran capacidad de adaptación y siempre dispuesto a sumar nuevas herramientas a mi ecosistema técnico.',
+            'hero.photo.open': 'Ampliar foto',
             'hero.cta.cv': 'Descargar CV',
             'hero.cta.projects': 'Mis Proyectos',
             'hero.cta.linkedin': 'LinkedIn',
@@ -49,16 +50,18 @@ import './starfield.js';
             'certificates.subtitle': 'Formación continua y certificaciones profesionales',
             'certificates.c1.title': 'AWS Certified Cloud Practitioner',
             'certificates.c1.org': 'Amazon Web Services — 2026',
-            'certificates.c2.title': 'Fundamentos de Nube',
-            'certificates.c2.org': 'Amazon Web Services — 2026',
-            'certificates.c3.title': 'Gen AI Fundamentos',
+            'certificates.c2.title': 'DevOps: Docker, Kubernetes, Jenkins y AWS',
+            'certificates.c2.org': 'Udemy — 2026',
+            'certificates.c3.title': 'Fundamentos de Nube',
             'certificates.c3.org': 'Amazon Web Services — 2026',
-            'certificates.c4.title': 'Gen AI Intermedio',
+            'certificates.c4.title': 'Gen AI Fundamentos',
             'certificates.c4.org': 'Amazon Web Services — 2026',
-            'certificates.c5.title': 'Trabajo en Equipo y Automotivación',
-            'certificates.c5.org': 'Penguin Academy — 2025',
+            'certificates.c5.title': 'Gen AI Intermedio',
+            'certificates.c5.org': 'Amazon Web Services — 2026',
             'certificates.c6.title': 'Metodología de Aprendizaje en Programación',
             'certificates.c6.org': 'Penguin Academy — 2025',
+            'certificates.c7.title': 'Trabajo en Equipo y Automotivación',
+            'certificates.c7.org': 'Penguin Academy — 2025',
             'certificates.showMore': 'Ver más certificados',
             'certificates.showLess': 'Ver menos',
             'contact.title': 'Contacto',
@@ -83,6 +86,7 @@ import './starfield.js';
             'hero.greeting': "Hi, I'm",
             'hero.role': 'Software Developer',
             'hero.description': 'I am passionate about understanding and building every piece of a digital product. My main focus is on developing robust architectures and secure APIs, ensuring every piece of software is scalable and maintainable. I enjoy exploring and connecting different technologies to solve real-world problems. I consider myself a versatile person, highly adaptable and always ready to add new tools to my technical ecosystem.',
+            'hero.photo.open': 'Enlarge photo',
             'hero.cta.cv': 'Download CV',
             'hero.cta.projects': 'My Projects',
             'hero.cta.linkedin': 'LinkedIn',
@@ -112,16 +116,18 @@ import './starfield.js';
             'certificates.subtitle': 'Continuous learning and professional certifications',
             'certificates.c1.title': 'AWS Certified Cloud Practitioner',
             'certificates.c1.org': 'Amazon Web Services — 2026',
-            'certificates.c2.title': 'Cloud Fundamentals',
-            'certificates.c2.org': 'Amazon Web Services — 2026',
-            'certificates.c3.title': 'Gen AI Fundamentals',
+            'certificates.c2.title': 'DevOps: Docker, Kubernetes, Jenkins & AWS',
+            'certificates.c2.org': 'Udemy — 2026',
+            'certificates.c3.title': 'Cloud Fundamentals',
             'certificates.c3.org': 'Amazon Web Services — 2026',
-            'certificates.c4.title': 'Gen AI Intermediate',
+            'certificates.c4.title': 'Gen AI Fundamentals',
             'certificates.c4.org': 'Amazon Web Services — 2026',
-            'certificates.c5.title': 'Teamwork & Self-Motivation',
-            'certificates.c5.org': 'Penguin Academy — 2025',
+            'certificates.c5.title': 'Gen AI Intermediate',
+            'certificates.c5.org': 'Amazon Web Services — 2026',
             'certificates.c6.title': 'Learning Methodology in Programming',
             'certificates.c6.org': 'Penguin Academy — 2025',
+            'certificates.c7.title': 'Teamwork & Self-Motivation',
+            'certificates.c7.org': 'Penguin Academy — 2025',
             'certificates.showMore': 'Show more certificates',
             'certificates.showLess': 'Show less',
             'contact.title': 'Contact',
@@ -140,7 +146,6 @@ import './starfield.js';
 
     // ── State ──
     let currentLang = localStorage.getItem('portfolio-lang') || 'es';
-    let currentTheme = localStorage.getItem('portfolio-theme') || 'light';
 
     // ── DOM ──
     const html = document.documentElement;
@@ -157,26 +162,33 @@ import './starfield.js';
     // ═══════════════════════════════════════════
     // 1. THEME TOGGLE
     // ═══════════════════════════════════════════
-    function applyTheme(theme) {
+    // El tema ya quedó puesto por el script en línea del <head>, antes del primer
+    // pintado. Acá sólo se parte de lo que ese script decidió y se sincroniza el
+    // ícono: volver a calcularlo produciría un parpadeo.
+    let currentTheme = html.classList.contains('dark') ? 'dark' : 'light';
+
+    // `persistir` separa la elección del usuario del tema heredado del sistema:
+    // sin eso, la primera visita guardaba el tema del SO como si lo hubiera
+    // elegido a mano y el sitio dejaba de acompañarlo cuando el SO cambiaba.
+    function applyTheme(theme, persistir) {
         currentTheme = theme;
-        if (theme === 'dark') {
-            html.classList.add('dark');
-        } else {
-            html.classList.remove('dark');
-        }
+        html.classList.toggle('dark', theme === 'dark');
         themeIcon.innerHTML = theme === 'dark'
             ? '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-400"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>'
             : '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-500"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
-        localStorage.setItem('portfolio-theme', theme);
+        if (persistir) localStorage.setItem('portfolio-theme', theme);
     }
 
-    if (!localStorage.getItem('portfolio-theme')) {
-        currentTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    applyTheme(currentTheme);
+    applyTheme(currentTheme, false);
 
     themeToggle.addEventListener('click', () => {
-        applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+        applyTheme(currentTheme === 'dark' ? 'light' : 'dark', true);
+    });
+
+    // Mientras no haya elección guardada, el sitio sigue al tema del sistema.
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (localStorage.getItem('portfolio-theme')) return;
+        applyTheme(e.matches ? 'dark' : 'light', false);
     });
 
     // ═══════════════════════════════════════════
@@ -236,6 +248,15 @@ import './starfield.js';
             if (el.hasAttribute('data-split')) splitWords(el);
         });
 
+        // Los textos que no son contenido sino atributo (tooltip y nombre
+        // accesible) se recorren aparte.
+        [['data-i18n-title', 'title'], ['data-i18n-label', 'aria-label']].forEach(([datos, attr]) => {
+            document.querySelectorAll('[' + datos + ']').forEach((el) => {
+                const key = el.getAttribute(datos);
+                if (strings[key] !== undefined) el.setAttribute(attr, strings[key]);
+            });
+        });
+
         langLabel.textContent = lang === 'es' ? 'EN' : 'ES';
         html.setAttribute('lang', lang);
         localStorage.setItem('portfolio-lang', lang);
@@ -250,15 +271,36 @@ import './starfield.js';
     // ═══════════════════════════════════════════
     // 3. MOBILE MENU
     // ═══════════════════════════════════════════
+    const esMovil = window.matchMedia('(max-width: 767px)');
+
+    // Cerrado, el panel sigue en el DOM fuera de pantalla: sin `inert` sus
+    // enlaces se podían tabular a ciegas, con el foco en un sitio invisible.
+    function sincronizarInert() {
+        navLinks.inert = esMovil.matches && !navLinks.classList.contains('open');
+    }
+
     function abrirMenu(abierto) {
         hamburger.classList.toggle('active', abierto);
         navLinks.classList.toggle('open', abierto);
         hamburger.setAttribute('aria-expanded', String(abierto));
+        hamburger.setAttribute('aria-label', abierto ? 'Cerrar menú' : 'Abrir menú');
+        // La página de atrás no debe desplazarse con el panel abierto
+        document.body.classList.toggle('menu-abierto', abierto);
+        sincronizarInert();
     }
 
     hamburger.addEventListener('click', () => {
         abrirMenu(!navLinks.classList.contains('open'));
     });
+
+    // Al pasar a escritorio el panel vuelve a ser la barra de siempre: si quedó
+    // abierto hay que soltar el scroll y devolverle el foco a sus enlaces.
+    esMovil.addEventListener('change', () => {
+        if (!esMovil.matches) abrirMenu(false);
+        sincronizarInert();
+    });
+
+    sincronizarInert();
 
     navAnchors.forEach((link) => {
         link.addEventListener('click', () => abrirMenu(false));
@@ -339,6 +381,16 @@ import './starfield.js';
     // 6. CONTACT FORM — Web3Forms + Rate Limiting
     // ═══════════════════════════════════════════
     const contactForm = document.getElementById('contactForm');
+    const formStatus = document.getElementById('formStatus');
+
+    // Un solo lugar para el texto del boton y el aviso que leen los
+    // lectores de pantalla: antes el resultado del envio solo era visual.
+    function estadoEnvio(btn, texto, fondo) {
+        Array.from(btn.childNodes).forEach((n) => { if (n.nodeType === Node.TEXT_NODE) n.remove(); });
+        btn.appendChild(document.createTextNode(' ' + texto));
+        btn.style.background = fondo || '';
+        if (formStatus) formStatus.textContent = texto;
+    }
     const RATE_LIMIT_KEY = 'cf_submissions';
     const MAX_SUBMISSIONS = 3;      // max per window
     const RATE_WINDOW_MS = 30 * 60 * 1000; // 30 minutes
@@ -366,27 +418,22 @@ import './starfield.js';
         const subs = getSubmissions();
         if (subs.length >= MAX_SUBMISSIONS) {
             const minsLeft = Math.ceil((RATE_WINDOW_MS - (Date.now() - subs[0])) / 60000);
-            Array.from(btn.childNodes).forEach((n) => { if (n.nodeType === Node.TEXT_NODE) n.remove(); });
-            btn.appendChild(document.createTextNode(
-                currentLang === 'es'
-                    ? ` Demasiados envíos. Esperá ${minsLeft} min`
-                    : ` Too many submissions. Wait ${minsLeft} min`
-            ));
-            btn.style.background = 'linear-gradient(to right, #f59e0b, #d97706)';
+            estadoEnvio(btn, currentLang === 'es'
+                ? `Demasiados envíos. Esperá ${minsLeft} min`
+                : `Too many submissions. Wait ${minsLeft} min`,
+                'linear-gradient(to right, #f59e0b, #d97706)');
             btn.disabled = true;
             setTimeout(() => {
                 btn.disabled = false;
-                Array.from(btn.childNodes).forEach((n) => { if (n.nodeType === Node.TEXT_NODE) n.remove(); });
-                btn.appendChild(document.createTextNode(' ' + originalText));
-                btn.style.background = '';
+                estadoEnvio(btn, originalText, '');
+                if (formStatus) formStatus.textContent = '';
             }, 4000);
             return;
         }
 
         // Loading state
         btn.disabled = true;
-        Array.from(btn.childNodes).forEach((n) => { if (n.nodeType === Node.TEXT_NODE) n.remove(); });
-        btn.appendChild(document.createTextNode(currentLang === 'es' ? ' Enviando...' : ' Sending...'));
+        estadoEnvio(btn, currentLang === 'es' ? 'Enviando...' : 'Sending...', '');
 
         try {
             const formData = new FormData(this);
@@ -398,24 +445,21 @@ import './starfield.js';
 
             if (result.success) {
                 recordSubmission();
-                Array.from(btn.childNodes).forEach((n) => { if (n.nodeType === Node.TEXT_NODE) n.remove(); });
-                btn.appendChild(document.createTextNode(currentLang === 'es' ? ' ¡Enviado! ✓' : ' Sent! ✓'));
-                btn.style.background = 'linear-gradient(to right, #22c55e, #16a34a)';
+                estadoEnvio(btn, currentLang === 'es' ? '¡Enviado! ✓' : 'Sent! ✓',
+                    'linear-gradient(to right, #22c55e, #16a34a)');
                 contactForm.reset();
             } else {
                 throw new Error(result.message || 'Error');
             }
         } catch (err) {
-            Array.from(btn.childNodes).forEach((n) => { if (n.nodeType === Node.TEXT_NODE) n.remove(); });
-            btn.appendChild(document.createTextNode(currentLang === 'es' ? ' Error al enviar ✗' : ' Send failed ✗'));
-            btn.style.background = 'linear-gradient(to right, #ef4444, #dc2626)';
+            estadoEnvio(btn, currentLang === 'es' ? 'Error al enviar ✗' : 'Send failed ✗',
+                'linear-gradient(to right, #ef4444, #dc2626)');
         }
 
         setTimeout(() => {
             btn.disabled = false;
-            Array.from(btn.childNodes).forEach((n) => { if (n.nodeType === Node.TEXT_NODE) n.remove(); });
-            btn.appendChild(document.createTextNode(' ' + originalText));
-            btn.style.background = '';
+            estadoEnvio(btn, originalText, '');
+            if (formStatus) formStatus.textContent = '';
         }, 3000);
     });
 
@@ -575,10 +619,13 @@ import './starfield.js';
         return shuffle(comboPool.splice(bestIdx, 1)[0]);
     }
 
-    // Cuántas columnas tiene el grid ahora mismo (1 / 2 / 3 según breakpoint)
+    // Cuántas tarjetas entran por fila. El dato lo pone el CSS en `--cols`: el
+    // grid tiene el doble de columnas de las que se ven (para poder centrar la
+    // última fila), así que contar `gridTemplateColumns` daría el número al
+    // revés. Leyéndolo de la variable, sumar un breakpoint es sólo CSS.
     function slotCount() {
-        const cols = getComputedStyle(certsGrid).gridTemplateColumns.split(' ').filter(Boolean).length;
-        return Math.max(1, Math.min(cols, certCards.length));
+        const cols = parseInt(getComputedStyle(certsGrid).getPropertyValue('--cols'), 10);
+        return Math.max(1, Math.min(cols || 1, certCards.length));
     }
 
     // Deja en pantalla exactamente `combo`. Con offstage=true las coloca ya fuera
@@ -690,6 +737,9 @@ import './starfield.js';
     if (certsToggle) {
         certsToggle.addEventListener('click', () => {
             certsExpanded = !certsExpanded;
+            // El CSS centra la última fila sólo con todo desplegado: mientras
+            // rota siempre hay una fila llena y hay tarjetas en display:none.
+            certsGrid.classList.toggle('certs-expandido', certsExpanded);
 
             if (certsExpanded) {
                 stopRotation();
@@ -715,20 +765,46 @@ import './starfield.js';
     const photoModal = document.getElementById('photoModal');
     const closePhoto = document.getElementById('closePhoto');
 
-    profilePhoto.addEventListener('click', () => {
-        photoModal.classList.remove('opacity-0', 'pointer-events-none');
-        photoModal.classList.add('opacity-100', 'pointer-events-auto');
-    });
+    // Quién tenía el foco antes de abrir, para devolvérselo al cerrar y no
+    // dejar al usuario de teclado al principio de la página.
+    let focoPrevio = null;
 
-    closePhoto.addEventListener('click', () => {
-        photoModal.classList.add('opacity-0', 'pointer-events-none');
-        photoModal.classList.remove('opacity-100', 'pointer-events-auto');
-    });
+    function abrirFoto(abierta) {
+        photoModal.classList.toggle('opacity-0', !abierta);
+        photoModal.classList.toggle('pointer-events-none', !abierta);
+        photoModal.classList.toggle('opacity-100', abierta);
+        photoModal.classList.toggle('pointer-events-auto', abierta);
+        document.body.classList.toggle('foto-abierta', abierta);
+
+        if (abierta) {
+            focoPrevio = document.activeElement;
+            photoModal.inert = false;   // hay que soltarlo antes de poder enfocar
+            closePhoto.focus();
+        } else {
+            photoModal.inert = true;
+            if (focoPrevio && focoPrevio.isConnected) focoPrevio.focus();
+            focoPrevio = null;
+        }
+    }
+
+    profilePhoto.addEventListener('click', () => abrirFoto(true));
+    closePhoto.addEventListener('click', () => abrirFoto(false));
 
     photoModal.addEventListener('click', (e) => {
-        if (e.target === photoModal) {
-            photoModal.classList.add('opacity-0', 'pointer-events-none');
-            photoModal.classList.remove('opacity-100', 'pointer-events-auto');
+        if (e.target === photoModal) abrirFoto(false);
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (photoModal.inert) return;
+        if (e.key === 'Escape') {
+            abrirFoto(false);
+            return;
+        }
+        // El diálogo tiene un solo control, así que cualquier tabulación vuelve
+        // a él: el foco no se escapa a la página de atrás mientras está abierto.
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            closePhoto.focus();
         }
     });
 })();

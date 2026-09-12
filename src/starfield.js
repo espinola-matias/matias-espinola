@@ -112,18 +112,51 @@
     // Los textos que van directo sobre el fondo (héroe y títulos de sección)
     // definen zonas donde las estrellas se apagan del todo. Las tarjetas no
     // hacen falta: sus fondos son opacos y ya las tapan.
-    function medirCajas() {
-        cajas = [];
+    //
+    // La medición se parte en dos porque en coordenadas del documento estas
+    // cajas no se mueven al scrollear: medirlas una vez y después sólo restarles
+    // el scroll evita un getBoundingClientRect() por elemento en cada cuadro,
+    // que fuerza un reflow y es lo más caro del fondo en móvil.
+    let cajasDoc = [];
+
+    function medirCajasDoc() {
+        const sy = window.scrollY;
+        cajasDoc = [];
         for (let i = 0; i < protegidos.length; i++) {
             const r = protegidos[i].getBoundingClientRect();
-            if (r.bottom < -CFG.fundidoTexto || r.top > alto + CFG.fundidoTexto) continue;
-            cajas.push({
+            cajasDoc.push({
                 izq: r.left - CFG.margenTexto,
-                arr: r.top - CFG.margenTexto,
+                arr: r.top + sy - CFG.margenTexto,
                 der: r.right + CFG.margenTexto,
-                aba: r.bottom + CFG.margenTexto,
+                aba: r.bottom + sy + CFG.margenTexto,
             });
         }
+        scrollAnterior = -1;   // obliga a reproyectar en el próximo cuadro
+    }
+
+    // Pasa las cajas a coordenadas de pantalla y descarta las que quedaron fuera.
+    function proyectarCajas(sy) {
+        cajas = [];
+        for (let i = 0; i < cajasDoc.length; i++) {
+            const c = cajasDoc[i];
+            const arr = c.arr - sy;
+            const aba = c.aba - sy;
+            if (aba < -CFG.fundidoTexto || arr > alto + CFG.fundidoTexto) continue;
+            cajas.push({ izq: c.izq, arr: arr, der: c.der, aba: aba });
+        }
+    }
+
+    // Lo que sí mueve estas cajas es que cambie el layout: desplegar los
+    // certificados, cambiar de idioma o rotar el teléfono.
+    if ('ResizeObserver' in window) {
+        let pendiente = false;
+        const observador = new ResizeObserver(() => {
+            if (pendiente) return;
+            pendiente = true;
+            requestAnimationFrame(() => { pendiente = false; medirCajasDoc(); });
+        });
+        observador.observe(document.body);
+        for (let i = 0; i < protegidos.length; i++) observador.observe(protegidos[i]);
     }
 
     function factorTexto(x, y) {
@@ -143,18 +176,32 @@
 
     function redimensionar() {
         const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        ancho = window.innerWidth;
-        alto = window.innerHeight;
-        if (!ancho || !alto) return;
+        const nuevoAncho = window.innerWidth;
+        const nuevoAlto = window.innerHeight;
+        if (!nuevoAncho || !nuevoAlto) return;
 
-        canvas.width = Math.round(ancho * dpr);
-        canvas.height = Math.round(alto * dpr);
-        canvas.style.width = ancho + 'px';
-        canvas.style.height = alto + 'px';
+        canvas.width = Math.round(nuevoAncho * dpr);
+        canvas.height = Math.round(nuevoAlto * dpr);
+        canvas.style.width = nuevoAncho + 'px';
+        canvas.style.height = nuevoAlto + 'px';
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
+        // En móvil la barra del navegador se retrae al scrollear y eso dispara
+        // `resize` con el ancho intacto. Regenerar ahí hacía saltar todo el cielo
+        // en pleno scroll: si sólo cambió el alto se estiran las que ya están.
+        const soloAlto = estrellas.length > 0 && nuevoAncho === ancho;
+        const escala = alto ? nuevoAlto / alto : 1;
+
+        ancho = nuevoAncho;
+        alto = nuevoAlto;
         scrollAnterior = -1;
-        generar();
+        medirCajasDoc();
+
+        if (soloAlto) {
+            for (let i = 0; i < estrellas.length; i++) estrellas[i].y *= escala;
+        } else {
+            generar();
+        }
     }
 
     function dibujar() {
@@ -164,11 +211,11 @@
             generar();
         }
 
-        // Las cajas viven en coordenadas de pantalla: sólo cambian al scrollear.
+        // Ya medidas en coordenadas del documento: acá sólo se les resta el scroll.
         const sy = window.scrollY;
         if (sy !== scrollAnterior) {
             scrollAnterior = sy;
-            medirCajas();
+            proyectarCajas(sy);
         }
 
         const p = oscuro ? PALETA.oscuro : PALETA.claro;
@@ -278,6 +325,10 @@
     }
 
     window.addEventListener('pointermove', (e) => {
+        // El dedo también dispara `pointermove`, pero en táctil no hay
+        // `mouseleave` que lo apague: el brillo quedaba clavado para siempre
+        // donde el usuario tocó por última vez. El cielo responde sólo al cursor.
+        if (e.pointerType === 'touch') return;
         mx = e.clientX;
         my = e.clientY;
         ultimoMov = performance.now();
