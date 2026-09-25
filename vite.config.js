@@ -25,7 +25,7 @@ const SITIO = 'https://matias-espinola.pages.dev';
 // que <lastmod> cambia en cada visita sin que el contenido cambie, deja de
 // confiarle esa fecha al sitemap entero. Se actualiza a mano acá cada vez que
 // se toca contenido de la página (no por retoques de CSS o de build).
-const ULTIMA_MODIFICACION_CONTENIDO = '2026-09-18';
+const ULTIMA_MODIFICACION_CONTENIDO = '2026-09-25';
 
 // El sitemap se emite en el build en vez de vivir suelto en public/ para que
 // no se pueda olvidar ahí desactualizado: esta es la única fuente del dato.
